@@ -25,4 +25,8 @@ public class Results {
         return Either.left(Failure.fromAppError(errorCode, message));
     }
 
+    public static <T> Either<Failure, T> appError(ErrorCode errorCode, String message, Throwable t) {
+        return Either.left(Failure.fromAppError(errorCode, message, t));
+    }
+
 }

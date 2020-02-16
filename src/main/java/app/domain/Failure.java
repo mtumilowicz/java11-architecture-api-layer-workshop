@@ -55,11 +55,16 @@ public class Failure {
     }
 
     public static Failure fromAppError(ErrorCode errorCode, String message) {
+        return fromAppError(errorCode, message, null);
+    }
+
+    public static Failure fromAppError(ErrorCode errorCode, String message, Throwable t) {
         return Failure.builder()
                 .appError(
                         AppError.builder()
                                 .code(errorCode)
                                 .message(message)
+                                .cause(t)
                                 .build()
                 )
                 .build();
