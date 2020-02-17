@@ -5,8 +5,10 @@ import io.vavr.control.Either;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ResponseEntityBuilder {
 
@@ -20,6 +22,20 @@ public class ResponseEntityBuilder {
                     .data(Map.of(name, apiItem))
                     .build();
             return ResponseEntity.created(uriMapper.apply(item)).body(body);
+        }).getOrElseGet(ResponseEntityBuilder::fromFailure);
+    }
+
+    public static <T, R> ResponseEntity<ApiOutput> list200(Either<Failure, List<T>> result,
+                                                           String name,
+                                                           Function<T, R> mapper) {
+        return result.map(items -> {
+            List<R> apiItems = items.stream()
+                    .map(mapper)
+                    .collect(Collectors.toList());
+            ApiOutput body = SuccessApiOutput.builder()
+                    .data(Map.of(name, apiItems))
+                    .build();
+            return ResponseEntity.ok(body);
         }).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
