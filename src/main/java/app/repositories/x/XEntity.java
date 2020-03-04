@@ -28,6 +28,7 @@ public class XEntity {
 
     public X rebuild(X x) {
         return x.toBuilder()
+                // set all field that hibernate fills - ex. Version
                 .build();
     }
 }
