@@ -2,6 +2,7 @@ package app.api;
 
 import app.domain.Failure;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
@@ -11,6 +12,18 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ResponseEntityBuilder {
+
+    public static <T> ResponseEntity<ApiOutput> okOrNotFound(Option<T> domainObject, String name, Function<T, ?> mapper) {
+        return domainObject
+                .map(item -> {
+                    Object apiItem = mapper.apply(item);
+                    ApiOutput body = SuccessApiOutput.builder()
+                            .data(Map.of(name, apiItem))
+                            .build();
+                    return ResponseEntity.ok(body);
+                })
+                .getOrElse(ResponseEntity.notFound().build());
+    }
 
     public static <T> ResponseEntity<ApiOutput> created200(Either<Failure, T> result,
                                                            String name,
@@ -25,11 +38,11 @@ public class ResponseEntityBuilder {
         }).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
-    public static <T, R> ResponseEntity<ApiOutput> list200(Either<Failure, List<T>> result,
+    public static <T> ResponseEntity<ApiOutput> list200(Either<Failure, List<T>> result,
                                                            String name,
-                                                           Function<T, R> mapper) {
+                                                           Function<T, ?> mapper) {
         return result.map(items -> {
-            List<R> apiItems = items.stream()
+            List<?> apiItems = items.stream()
                     .map(mapper)
                     .collect(Collectors.toList());
             ApiOutput body = SuccessApiOutput.builder()
@@ -46,7 +59,7 @@ public class ResponseEntityBuilder {
                     return ResponseEntity.status(500).body(body);
                 }, userErrors -> {
                     ApiOutput body = FailApiOutput.fromUserErrors(userErrors);
-                    return ResponseEntity.status(500).body(body);
+                    return ResponseEntity.status(400).body(body);
                 }
         );
     }
