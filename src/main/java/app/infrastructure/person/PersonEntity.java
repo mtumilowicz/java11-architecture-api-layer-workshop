@@ -26,9 +26,9 @@ public class PersonEntity {
                 .build();
     }
 
-    public Person rebuild(Person person) {
-        return person.toBuilder()
-                // set all field that hibernate fills - ex. Version
+    public Person toDomain() {
+        return Person.builder()
+                .name(name)
                 .build();
     }
 }
