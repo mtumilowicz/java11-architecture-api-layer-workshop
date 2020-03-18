@@ -1,3 +1,3 @@
-# java11-mockmvc-controller-layer-architecture-workshop
+# java11-architecture-api-layer-workshop
 
 * https://github.com/omniti-labs/jsend
