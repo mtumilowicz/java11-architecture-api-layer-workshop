@@ -1,6 +1,6 @@
-package app.repositories.x;
+package app.infrastructure.person;
 
-import app.x.X;
+import app.domain.person.Person;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -13,21 +13,21 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity
-public class XEntity {
+public class PersonEntity {
     @Id
     @Builder.Default
     private String id = UUID.randomUUID().toString();
 
     private String name;
 
-    public static XEntity from(X x) {
-        return XEntity.builder()
-                .name(x.getName())
+    public static PersonEntity from(Person person) {
+        return PersonEntity.builder()
+                .name(person.getName())
                 .build();
     }
 
-    public X rebuild(X x) {
-        return x.toBuilder()
+    public Person rebuild(Person person) {
+        return person.toBuilder()
                 // set all field that hibernate fills - ex. Version
                 .build();
     }

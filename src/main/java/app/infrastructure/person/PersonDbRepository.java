@@ -1,26 +1,26 @@
-package app.repositories.x;
+package app.infrastructure.person;
 
 import app.domain.ErrorCode;
 import app.domain.Failure;
 import app.domain.Results;
-import app.x.X;
-import app.x.XRepository;
+import app.domain.person.Person;
+import app.domain.person.PersonRepository;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class XDbRepository implements XRepository {
+public class PersonDbRepository implements PersonRepository {
 
     @Autowired
-    private XJpaRepository jpaRepository;
+    private PersonJpaRepository jpaRepository;
 
 
     @Override
-    public Either<Failure, X> save(X x) {
+    public Either<Failure, Person> save(Person person) {
         try {
-            XEntity entity = jpaRepository.save(XEntity.from(x));
-            return Results.success(entity.rebuild(x));
+            PersonEntity entity = jpaRepository.save(PersonEntity.from(person));
+            return Results.success(entity.rebuild(person));
         } catch (RuntimeException ex) {
             return Results.appError(ErrorCode.SERVER_ERROR, "Database error.", ex);
         }

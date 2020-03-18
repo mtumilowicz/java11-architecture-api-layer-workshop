@@ -1,13 +1,13 @@
-package app.x;
+package app.domain.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class XController {
+public class PersonController {
 
     @Autowired
-    private XService xService;
+    private PersonService personService;
 
 
 }
