@@ -20,9 +20,12 @@ public class PersonEntity {
 
     private String name;
 
+    private String surname;
+
     public static PersonEntity from(Person person) {
         return PersonEntity.builder()
                 .name(person.getName())
+                .surname(person.getSurname())
                 .build();
     }
 
@@ -30,6 +33,7 @@ public class PersonEntity {
         return Person.builder()
                 .id(id)
                 .name(name)
+                .surname(surname)
                 .build();
     }
 }

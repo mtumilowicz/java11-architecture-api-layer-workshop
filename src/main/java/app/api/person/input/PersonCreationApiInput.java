@@ -1,5 +1,6 @@
 package app.api.person.input;
 
+import app.api.Validations;
 import app.domain.ErrorCode;
 import app.domain.Failure;
 import app.domain.person.PersonCreationInput;
@@ -16,20 +17,22 @@ public class PersonCreationApiInput {
 
     public Either<Failure, PersonCreationInput> toDomain() {
         return Validation.combine(
-                isNotNull(name, "name"),
-                isNotNull(surname, "surname")
+                validateName(),
+                validateSurname()
         )
                 .ap((validName, validSurname) -> PersonCreationInput.builder()
                         .name(validName)
+                        .surname(validSurname)
                         .build())
                 .toEither()
                 .mapLeft(Failure::merge);
     }
 
-    static <T> Validation<Failure, T> isNotNull(T obj, String name) {
-        return Option.of(obj)
-                .filter(Objects::nonNull)
-                .map(Validation::<Failure, T>valid)
-                .getOrElse(Validation.invalid(Failure.fromUserError(ErrorCode.VALIDATION_ERROR, name, "Cannot be null")));
+    private Validation<Failure, String> validateName() {
+        return Validations.isNotNull(name, "name");
+    }
+
+    private Validation<Failure, String> validateSurname() {
+        return Validations.isNotNull(surname, "surname");
     }
 }
