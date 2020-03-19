@@ -28,6 +28,7 @@ public class PersonEntity {
 
     public Person toDomain() {
         return Person.builder()
+                .id(id)
                 .name(name)
                 .build();
     }

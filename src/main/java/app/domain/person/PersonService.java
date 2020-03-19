@@ -10,7 +10,7 @@ public class PersonService {
     private PersonRepository personRepository;
 
     public Either<Failure, Person> create(PersonCreationInput personCreationInput) {
-        return personRepository.save(new Person("a"));
+        return personRepository.save(personCreationInput.toPerson());
     }
 
     public Option<Person> findById(String id) {
