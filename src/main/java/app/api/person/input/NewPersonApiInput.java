@@ -1,7 +1,7 @@
 package app.api.person.input;
 
 import app.api.Validations;
-import app.domain.Failure;
+import app.domain.Failures;
 import app.domain.person.NewPersonCommand;
 import io.vavr.control.Either;
 import io.vavr.control.Validation;
@@ -11,7 +11,7 @@ public class NewPersonApiInput {
     String name;
     String surname;
 
-    public Either<Failure, NewPersonCommand> toDomain() {
+    public Either<Failures, NewPersonCommand> toDomain() {
         return Validation.combine(
                 validateName(),
                 validateSurname()
@@ -21,14 +21,14 @@ public class NewPersonApiInput {
                         .surname(validSurname)
                         .build())
                 .toEither()
-                .mapLeft(Failure::merge);
+                .mapLeft(Failures::merge);
     }
 
-    private Validation<Failure, String> validateName() {
+    private Validation<Failures, String> validateName() {
         return Validations.isNotNull(name, "name");
     }
 
-    private Validation<Failure, String> validateSurname() {
+    private Validation<Failures, String> validateSurname() {
         return Validations.isNotNull(surname, "surname");
     }
 }

@@ -1,6 +1,6 @@
 package app.api;
 
-import app.domain.Failure;
+import app.domain.Failures;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class ResponseEntityBuilder {
                 .getOrElse(ResponseEntity.notFound().build());
     }
 
-    public static <T> ResponseEntity<ApiOutput> created200(Either<Failure, T> result,
+    public static <T> ResponseEntity<ApiOutput> created200(Either<Failures, T> result,
                                                            String name,
                                                            Function<T, ?> mapper,
                                                            Function<T, URI> uriMapper) {
@@ -38,7 +38,7 @@ public class ResponseEntityBuilder {
         }).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
-    public static <T> ResponseEntity<ApiOutput> list200(Either<Failure, List<T>> result,
+    public static <T> ResponseEntity<ApiOutput> list200(Either<Failures, List<T>> result,
                                                            String name,
                                                            Function<T, ?> mapper) {
         return result.map(items -> {
@@ -52,8 +52,8 @@ public class ResponseEntityBuilder {
         }).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
-    private static ResponseEntity<ApiOutput> fromFailure(Failure failure) {
-        return failure.transform(
+    private static ResponseEntity<ApiOutput> fromFailure(Failures failures) {
+        return failures.transform(
                 appErrors -> {
                     ApiOutput body = ErrorApiOutput.fromAppErrors(appErrors);
                     return ResponseEntity.status(500).body(body);

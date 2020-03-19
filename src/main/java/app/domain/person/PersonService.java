@@ -1,15 +1,19 @@
 package app.domain.person;
 
-import app.domain.Failure;
+import app.domain.Failures;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class PersonService {
-    private PersonRepository personRepository;
 
-    public Either<Failure, Person> create(NewPersonCommand newPersonCommand) {
+    PersonRepository personRepository;
+
+    public Either<Failures, Person> create(NewPersonCommand newPersonCommand) {
         return personRepository.save(Person.createFrom(newPersonCommand));
     }
 

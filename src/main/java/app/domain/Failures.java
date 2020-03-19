@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 @Builder(toBuilder = true, access = AccessLevel.PRIVATE)
 @ToString
-public class Failure {
+public class Failures {
 
     @Getter
     @Singular
@@ -24,9 +24,9 @@ public class Failure {
         return this.userErrors.containsAll(userErrors);
     }
 
-    public Failure merge(Failure failure) {
-        appErrors = Lists.newArrayList(Iterables.concat(appErrors, failure.appErrors));
-        userErrors = Lists.newArrayList(Iterables.concat(userErrors, failure.userErrors));
+    public Failures merge(Failures failures) {
+        appErrors = Lists.newArrayList(Iterables.concat(appErrors, failures.appErrors));
+        userErrors = Lists.newArrayList(Iterables.concat(userErrors, failures.userErrors));
         return this;
     }
 
@@ -38,12 +38,12 @@ public class Failure {
         return appErrorsMapper.apply(appErrors);
     }
 
-    public static Failure merge(Seq<Failure> failures) {
-        return failures.reduceLeft(Failure::merge);
+    public static Failures merge(Seq<Failures> failures) {
+        return failures.reduceLeft(Failures::merge);
     }
 
-    public static Failure fromUserError(ErrorCode errorCode, String key, String message) {
-        return Failure.builder()
+    public static Failures fromUserError(ErrorCode errorCode, String key, String message) {
+        return Failures.builder()
                 .userError(
                         UserError.builder()
                                 .code(errorCode)
@@ -54,12 +54,12 @@ public class Failure {
                 .build();
     }
 
-    public static Failure fromAppError(ErrorCode errorCode, String message) {
+    public static Failures fromAppError(ErrorCode errorCode, String message) {
         return fromAppError(errorCode, message, null);
     }
 
-    public static Failure fromAppError(ErrorCode errorCode, String message, Throwable t) {
-        return Failure.builder()
+    public static Failures fromAppError(ErrorCode errorCode, String message, Throwable t) {
+        return Failures.builder()
                 .appError(
                         AppError.builder()
                                 .code(errorCode)

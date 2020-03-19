@@ -1,7 +1,7 @@
 package app.infrastructure.person;
 
 import app.domain.ErrorCode;
-import app.domain.Failure;
+import app.domain.Failures;
 import app.domain.Results;
 import app.domain.person.Person;
 import app.domain.person.PersonRepository;
@@ -18,7 +18,7 @@ public class PersonDbRepository implements PersonRepository {
 
 
     @Override
-    public Either<Failure, Person> save(Person person) {
+    public Either<Failures, Person> save(Person person) {
         try {
             PersonEntity entity = jpaRepository.save(PersonEntity.from(person));
             return Results.success(entity.toDomain());
