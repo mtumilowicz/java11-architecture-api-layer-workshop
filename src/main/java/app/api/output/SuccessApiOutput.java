@@ -12,6 +12,8 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 class SuccessApiOutput implements ApiOutput {
+
     private final String status = "success";
+
     private Map<String, Object> data;
 }

@@ -5,7 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-@Getter
+import java.util.Map;
+
 @Builder
 @EqualsAndHashCode
 @ToString
@@ -17,4 +18,7 @@ public class AppError {
     @EqualsAndHashCode.Exclude
     private Throwable cause;
 
+    public Map<String, String> asMap() {
+        return Map.of("message", message);
+    }
 }

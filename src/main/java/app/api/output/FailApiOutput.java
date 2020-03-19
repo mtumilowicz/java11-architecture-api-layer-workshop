@@ -12,17 +12,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 class FailApiOutput implements ApiOutput {
+
     private final String status = "fail";
+
     private Map<String, Object> data;
 
     static ApiOutput fromUserErrors(List<UserError> userErrors) {
         List<Map<String, String>> apiErrors = userErrors.stream()
                 .distinct()
-                .map(userError -> Map.of(userError.getKey(), userError.getMessage()))
+                .map(UserError::asMap)
                 .collect(Collectors.toList());
 
         return ErrorApiOutput.builder()
