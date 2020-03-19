@@ -15,13 +15,7 @@ public class ResponseEntityBuilder {
 
     public static <T> ResponseEntity<ApiOutput> okOrNotFound(Option<T> domainObject, String name, Function<T, ?> mapper) {
         return domainObject
-                .map(item -> {
-                    Object apiItem = mapper.apply(item);
-                    ApiOutput body = SuccessApiOutput.builder()
-                            .data(Map.of(name, apiItem))
-                            .build();
-                    return ResponseEntity.ok(body);
-                })
+                .map(item -> ResponseEntity.ok(SuccessApiOutput.from(name, mapper.apply(item))))
                 .getOrElse(ResponseEntity.notFound().build());
     }
 
@@ -29,26 +23,19 @@ public class ResponseEntityBuilder {
                                                            String name,
                                                            Function<T, ?> mapper,
                                                            Function<T, URI> uriMapper) {
-        return result.map(item -> {
-            Object apiItem = mapper.apply(item);
-            ApiOutput body = SuccessApiOutput.builder()
-                    .data(Map.of(name, apiItem))
-                    .build();
-            return ResponseEntity.created(uriMapper.apply(item)).body(body);
-        }).getOrElseGet(ResponseEntityBuilder::fromFailure);
+        return result.map(item ->
+                ResponseEntity.created(uriMapper.apply(item)).body(SuccessApiOutput.from(name, mapper.apply(item)))
+        ).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
     public static <T> ResponseEntity<ApiOutput> list200(Either<Failures, List<T>> result,
-                                                           String name,
-                                                           Function<T, ?> mapper) {
+                                                        String name,
+                                                        Function<T, ?> mapper) {
         return result.map(items -> {
             List<?> apiItems = items.stream()
                     .map(mapper)
                     .collect(Collectors.toList());
-            ApiOutput body = SuccessApiOutput.builder()
-                    .data(Map.of(name, apiItems))
-                    .build();
-            return ResponseEntity.ok(body);
+            return ResponseEntity.ok(SuccessApiOutput.from(name, apiItems));
         }).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 

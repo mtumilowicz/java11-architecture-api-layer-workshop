@@ -29,8 +29,4 @@ class FailApiOutput implements ApiOutput {
                 .data(Map.of("errors", apiErrors))
                 .build();
     }
-
-    static ApiOutput fromUserError(UserError userError) {
-        return fromUserErrors(Collections.singletonList(userError));
-    }
 }

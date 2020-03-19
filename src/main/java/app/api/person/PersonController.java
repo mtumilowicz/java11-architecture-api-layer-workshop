@@ -29,7 +29,7 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<ApiOutput> create(@RequestBody NewPersonApiInput creationInput, UriComponentsBuilder builder) {
-        var createResult = creationInput.toDomain().flatMap(personService::create);
+        var createResult = creationInput.toDomain().flatMap(x -> personService.create(x));
         return ResponseEntityBuilder.created200(createResult,
                 "person",
                 PersonApiOutput::from,

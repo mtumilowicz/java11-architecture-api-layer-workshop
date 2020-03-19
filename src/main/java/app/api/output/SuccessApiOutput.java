@@ -16,4 +16,10 @@ class SuccessApiOutput implements ApiOutput {
     private final String status = "success";
 
     private Map<String, Object> data;
+
+    static ApiOutput from(String name, Object data) {
+        return builder()
+                .data(Map.of(name, data))
+                .build();
+    }
 }
