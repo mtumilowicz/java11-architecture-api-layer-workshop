@@ -2,6 +2,10 @@ package app.domain;
 
 import io.vavr.control.Either;
 
+import java.util.List;
+
+import static java.util.function.Predicate.not;
+
 public class Results {
     public static Either<Failures, Success> success() {
         return Either.right(new Success());
@@ -29,4 +33,8 @@ public class Results {
         return Either.left(Failures.fromAppError(errorCode, message, t));
     }
 
+    public static <T> Either<Failures, List<T>> requireNotEmpty(Either<Failures, List<T>> list, String message) {
+        return list.filter(not(List::isEmpty))
+                .getOrElse(Results.userError(ErrorCode.VALIDATION_ERROR, message));
+    }
 }
