@@ -1,7 +1,7 @@
 package app.api.person;
 
-import app.api.ApiOutput;
-import app.api.ResponseEntityBuilder;
+import app.api.output.ApiOutput;
+import app.api.output.ResponseEntityBuilder;
 import app.api.person.input.NewPersonApiInput;
 import app.api.person.output.PersonApiOutput;
 import app.domain.person.PersonService;
@@ -35,5 +35,4 @@ public class PersonController {
                 person -> builder.path("persons/{id}").buildAndExpand(person.getName()).toUri()
         );
     }
-
 }

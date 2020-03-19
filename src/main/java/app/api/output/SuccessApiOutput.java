@@ -1,4 +1,4 @@
-package app.api;
+package app.api.output;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SuccessApiOutput implements ApiOutput {
+class SuccessApiOutput implements ApiOutput {
     private final String status = "success";
     private Map<String, Object> data;
 }

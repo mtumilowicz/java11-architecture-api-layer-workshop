@@ -1,4 +1,4 @@
-package app.api;
+package app.api.output;
 
 import app.domain.Failures;
 import io.vavr.control.Either;

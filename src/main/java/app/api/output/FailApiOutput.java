@@ -1,4 +1,4 @@
-package app.api;
+package app.api.output;
 
 import app.domain.UserError;
 import lombok.AllArgsConstructor;
@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FailApiOutput implements ApiOutput {
+class FailApiOutput implements ApiOutput {
     private final String status = "fail";
     private Map<String, Object> data;
 
-    public static ApiOutput fromUserErrors(List<UserError> userErrors) {
+    static ApiOutput fromUserErrors(List<UserError> userErrors) {
         List<Map<String, String>> apiErrors = userErrors.stream()
                 .distinct()
                 .map(userError -> Map.of(userError.getKey(), userError.getMessage()))
@@ -30,7 +30,7 @@ public class FailApiOutput implements ApiOutput {
                 .build();
     }
 
-    public static ApiOutput fromUserError(UserError userError) {
+    static ApiOutput fromUserError(UserError userError) {
         return fromUserErrors(Collections.singletonList(userError));
     }
 }

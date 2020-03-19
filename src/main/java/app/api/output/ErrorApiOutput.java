@@ -1,4 +1,4 @@
-package app.api;
+package app.api.output;
 
 import app.domain.AppError;
 import lombok.AllArgsConstructor;
@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ErrorApiOutput implements ApiOutput {
+class ErrorApiOutput implements ApiOutput {
     private final String status = "error";
     private Map<String, Object> data;
 
-    public static ErrorApiOutput fromAppErrors(List<AppError> appErrors) {
+    static ErrorApiOutput fromAppErrors(List<AppError> appErrors) {
         List<Map<String, String>> apiErrors = appErrors.stream()
                 .distinct()
                 .map(appError -> Map.of("message", appError.getMessage()))

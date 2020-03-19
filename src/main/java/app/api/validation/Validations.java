@@ -1,4 +1,4 @@
-package app.api;
+package app.api.validation;
 
 import app.domain.ErrorCode;
 import app.domain.Failures;
