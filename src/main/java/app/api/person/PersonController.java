@@ -29,7 +29,8 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<ApiOutput> create(@RequestBody NewPersonApiInput creationInput, UriComponentsBuilder builder) {
-        return ResponseEntityBuilder.created200(creationInput.toDomain().flatMap(x -> personService.create(x)),
+        var createResult = creationInput.toDomain().flatMap(personService::create);
+        return ResponseEntityBuilder.created200(createResult,
                 "person",
                 PersonApiOutput::from,
                 person -> builder.path("persons/{id}").buildAndExpand(person.getName()).toUri()
