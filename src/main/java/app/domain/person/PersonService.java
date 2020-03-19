@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class PersonService {
@@ -19,5 +21,9 @@ public class PersonService {
 
     public Option<Person> findById(String id) {
         return personRepository.findById(id);
+    }
+
+    public Either<Failures, List<Person>> findByName(String name) {
+        return personRepository.findByName(name);
     }
 }

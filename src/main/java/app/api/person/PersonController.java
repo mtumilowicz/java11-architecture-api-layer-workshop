@@ -22,6 +22,11 @@ public class PersonController {
         return ResponseEntityBuilder.okOrNotFound(personService.findById(id), "person", PersonApiOutput::from);
     }
 
+    @GetMapping
+    public ResponseEntity<ApiOutput> findByName(@RequestParam String name) {
+        return ResponseEntityBuilder.list200(personService.findByName(name), "persons", PersonApiOutput::from);
+    }
+
     @PostMapping
     public ResponseEntity<ApiOutput> create(@RequestBody NewPersonApiInput creationInput, UriComponentsBuilder builder) {
         return ResponseEntityBuilder.created200(creationInput.toDomain().flatMap(x -> personService.create(x)),

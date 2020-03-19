@@ -10,6 +10,8 @@ import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class PersonDbRepository implements PersonRepository {
 
@@ -31,5 +33,10 @@ public class PersonDbRepository implements PersonRepository {
     @Override
     public Option<Person> findById(String id) {
         return Option.ofOptional(jpaRepository.findById(id).map(PersonEntity::toDomain));
+    }
+
+    @Override
+    public Either<Failures, List<Person>> findByName(String name) {
+        return Results.success(jpaRepository.findByName(name));
     }
 }
