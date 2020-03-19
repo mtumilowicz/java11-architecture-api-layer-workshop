@@ -9,8 +9,8 @@ import lombok.AllArgsConstructor;
 public class PersonService {
     private PersonRepository personRepository;
 
-    public Either<Failure, Person> create(PersonCreationInput personCreationInput) {
-        return personRepository.save(personCreationInput.toPerson());
+    public Either<Failure, Person> create(NewPersonCommand newPersonCommand) {
+        return personRepository.save(Person.createFrom(newPersonCommand));
     }
 
     public Option<Person> findById(String id) {

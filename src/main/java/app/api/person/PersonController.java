@@ -2,7 +2,7 @@ package app.api.person;
 
 import app.api.ApiOutput;
 import app.api.ResponseEntityBuilder;
-import app.api.person.input.PersonCreationApiInput;
+import app.api.person.input.NewPersonApiInput;
 import app.api.person.output.PersonApiOutput;
 import app.domain.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiOutput> create(@RequestBody PersonCreationApiInput creationInput, UriComponentsBuilder builder) {
+    public ResponseEntity<ApiOutput> create(@RequestBody NewPersonApiInput creationInput, UriComponentsBuilder builder) {
         return ResponseEntityBuilder.created200(creationInput.toDomain().flatMap(x -> personService.create(x)),
                 "person",
                 PersonApiOutput::from,

@@ -1,26 +1,22 @@
 package app.api.person.input;
 
 import app.api.Validations;
-import app.domain.ErrorCode;
 import app.domain.Failure;
-import app.domain.person.PersonCreationInput;
+import app.domain.person.NewPersonCommand;
 import io.vavr.control.Either;
-import io.vavr.control.Option;
 import io.vavr.control.Validation;
 
-import java.util.Objects;
-
-public class PersonCreationApiInput {
+public class NewPersonApiInput {
 
     String name;
     String surname;
 
-    public Either<Failure, PersonCreationInput> toDomain() {
+    public Either<Failure, NewPersonCommand> toDomain() {
         return Validation.combine(
                 validateName(),
                 validateSurname()
         )
-                .ap((validName, validSurname) -> PersonCreationInput.builder()
+                .ap((validName, validSurname) -> NewPersonCommand.builder()
                         .name(validName)
                         .surname(validSurname)
                         .build())
