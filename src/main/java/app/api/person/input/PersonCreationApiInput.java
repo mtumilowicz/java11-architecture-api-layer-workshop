@@ -12,13 +12,18 @@ import java.util.Objects;
 public class PersonCreationApiInput {
 
     String name;
+    String surname;
 
     public Either<Failure, PersonCreationInput> toDomain() {
-        return isNotNull(name, "name")
-                .map(validName -> PersonCreationInput.builder()
+        return Validation.combine(
+                isNotNull(name, "name"),
+                isNotNull(surname, "surname")
+        )
+                .ap((validName, validSurname) -> PersonCreationInput.builder()
                         .name(validName)
                         .build())
-                .toEither();
+                .toEither()
+                .mapLeft(Failure::merge);
     }
 
     static <T> Validation<Failure, T> isNotNull(T obj, String name) {
