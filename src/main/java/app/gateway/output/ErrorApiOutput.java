@@ -1,4 +1,4 @@
-package app.api.output;
+package app.gateway.output;
 
 import lombok.*;
 
@@ -8,9 +8,9 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-class FailApiOutput implements ApiOutput {
+class ErrorApiOutput implements ApiOutput {
 
-    private final String status = "fail";
+    private final String status = "error";
 
     private Map<String, Object> data;
 }

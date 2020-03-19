@@ -1,4 +1,4 @@
-package app.api.output;
+package app.gateway.output;
 
 import app.domain.results.AppError;
 import app.domain.results.UserError;

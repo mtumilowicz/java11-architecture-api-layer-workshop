@@ -1,6 +1,6 @@
-package app.api.person.input;
+package app.gateway.person.input;
 
-import app.api.validation.Validations;
+import app.gateway.validation.Validations;
 import app.domain.results.Failures;
 import app.domain.person.NewPersonCommand;
 import io.vavr.control.Either;

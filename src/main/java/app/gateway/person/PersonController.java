@@ -1,9 +1,9 @@
-package app.api.person;
+package app.gateway.person;
 
-import app.api.output.ApiOutput;
-import app.api.output.ResponseEntityBuilder;
-import app.api.person.input.NewPersonApiInput;
-import app.api.person.output.PersonApiOutput;
+import app.gateway.output.ApiOutput;
+import app.gateway.output.ResponseEntityBuilder;
+import app.gateway.person.input.NewPersonApiInput;
+import app.gateway.person.output.PersonApiOutput;
 import app.domain.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
