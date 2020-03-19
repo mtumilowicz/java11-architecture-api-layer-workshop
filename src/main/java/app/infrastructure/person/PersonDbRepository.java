@@ -1,8 +1,8 @@
 package app.infrastructure.person;
 
-import app.domain.ErrorCode;
-import app.domain.Failures;
-import app.domain.Results;
+import app.domain.results.ErrorCode;
+import app.domain.results.Failures;
+import app.domain.results.Results;
 import app.domain.person.Person;
 import app.domain.person.PersonRepository;
 import io.vavr.control.Either;

@@ -1,4 +1,4 @@
-package app.domain;
+package app.domain.results;
 
 public enum ErrorCode {
     VALIDATION_ERROR,

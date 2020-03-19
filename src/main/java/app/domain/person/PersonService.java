@@ -1,7 +1,7 @@
 package app.domain.person;
 
-import app.domain.Failures;
-import app.domain.Results;
+import app.domain.results.Failures;
+import app.domain.results.Results;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import lombok.AccessLevel;

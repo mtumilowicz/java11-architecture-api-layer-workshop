@@ -1,6 +1,6 @@
 package app.api.output;
 
-import app.domain.UserError;
+import app.domain.results.UserError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

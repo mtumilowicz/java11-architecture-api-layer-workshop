@@ -1,6 +1,6 @@
 package app.api.output;
 
-import app.domain.Failures;
+import app.domain.results.Failures;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import org.springframework.http.ResponseEntity;

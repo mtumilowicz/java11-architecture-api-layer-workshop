@@ -1,7 +1,7 @@
 package app.api.validation;
 
-import app.domain.ErrorCode;
-import app.domain.Failures;
+import app.domain.results.ErrorCode;
+import app.domain.results.Failures;
 import io.vavr.control.Option;
 import io.vavr.control.Validation;
 

@@ -1,4 +1,4 @@
-package app.domain;
+package app.domain.results;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

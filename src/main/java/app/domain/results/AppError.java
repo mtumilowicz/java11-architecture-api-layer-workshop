@@ -1,4 +1,4 @@
-package app.domain;
+package app.domain.results;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
