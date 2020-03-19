@@ -20,10 +20,6 @@ public class Failures {
     @Singular
     private List<UserError> userErrors;
 
-    public boolean containsAll(List<UserError> userErrors) {
-        return this.userErrors.containsAll(userErrors);
-    }
-
     public Failures merge(Failures failures) {
         appErrors = Lists.newArrayList(Iterables.concat(appErrors, failures.appErrors));
         userErrors = Lists.newArrayList(Iterables.concat(userErrors, failures.userErrors));
@@ -31,11 +27,9 @@ public class Failures {
     }
 
     public <T> T transform(Function<List<AppError>, T> appErrorsMapper, Function<List<UserError>, T> userErrorsConsumer) {
-        if (appErrors.isEmpty()) {
-            return userErrorsConsumer.apply(userErrors);
-        }
-
-        return appErrorsMapper.apply(appErrors);
+        return appErrors.isEmpty()
+                ? userErrorsConsumer.apply(userErrors)
+                : appErrorsMapper.apply(appErrors);
     }
 
     public static Failures merge(Seq<Failures> failures) {
@@ -52,10 +46,6 @@ public class Failures {
                                 .build()
                 )
                 .build();
-    }
-
-    public static Failures fromAppError(ErrorCode errorCode, String message) {
-        return fromAppError(errorCode, message, null);
     }
 
     public static Failures fromAppError(ErrorCode errorCode, String message, Throwable t) {
