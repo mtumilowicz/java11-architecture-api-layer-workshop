@@ -1,8 +1,9 @@
 package app.api.output;
 
 import app.domain.results.AppError;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
