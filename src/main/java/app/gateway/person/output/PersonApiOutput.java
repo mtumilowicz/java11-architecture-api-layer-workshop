@@ -16,10 +16,13 @@ public class PersonApiOutput {
 
     String name;
 
+    String surname;
+
     public static PersonApiOutput from(Person person) {
         return PersonApiOutput.builder()
                 .id(person.getId())
                 .name(person.getName())
+                .surname(person.getSurname())
                 .build();
     }
 }

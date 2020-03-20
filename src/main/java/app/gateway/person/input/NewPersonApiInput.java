@@ -5,10 +5,19 @@ import app.domain.results.Failures;
 import app.domain.person.NewPersonCommand;
 import io.vavr.control.Either;
 import io.vavr.control.Validation;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class NewPersonApiInput {
 
     String name;
+
     String surname;
 
     public Either<Failures, NewPersonCommand> toDomain() {

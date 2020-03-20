@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("app/persons")
+@RequestMapping("persons")
 public class PersonController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class PersonController {
         return ResponseEntityBuilder.created200(createResult,
                 "person",
                 PersonApiOutput::from,
-                person -> builder.path("persons/{id}").buildAndExpand(person.getName()).toUri()
+                person -> builder.path("persons/{id}").buildAndExpand(person.getId()).toUri()
         );
     }
 }
