@@ -21,10 +21,10 @@ public class ResponseEntityBuilder {
                 .getOrElse(ResponseEntity.notFound().build());
     }
 
-    public static <T> ResponseEntity<ApiOutput> created200(Either<Failures, T> result,
-                                                           String name,
-                                                           Function<T, ?> mapper,
-                                                           Function<T, URI> uriMapper) {
+    public static <T> ResponseEntity<ApiOutput> created(Either<Failures, T> result,
+                                                        String name,
+                                                        Function<T, ?> mapper,
+                                                        Function<T, URI> uriMapper) {
         return result.map(item -> {
                     var url = uriMapper.apply(item);
                     var body = ApiOutput.success(name, mapper.apply(item));
