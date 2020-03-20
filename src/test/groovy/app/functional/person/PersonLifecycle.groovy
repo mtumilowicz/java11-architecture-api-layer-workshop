@@ -1,14 +1,11 @@
 package app.functional.person
 
-import app.gateway.output.ApiOutput
-import app.gateway.output.SuccessApiOutput
-import app.gateway.person.output.PersonApiOutput
+
 import app.mockmvc.MockMvcFacade
 import app.mockmvc.ResponseMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @Component
@@ -33,11 +30,23 @@ class PersonLifecycle {
         ResponseMapper.parseResponse(responseOfGet).data.person
     }
 
-    def delete(id) {
+    def notExists(id) {
+        facade.get([url: "$root/$id"])
+                .andExpect(status().isNotFound())
+    }
+
+    def deleteById(id) {
         def responseOfGet = facade.delete([url: "$root/$id"])
                 .andExpect(status().isOk())
                 .andReturn()
         ResponseMapper.parseResponse(responseOfGet).data.personId
+    }
+
+    def deleteByIds(ids) {
+        def responseOfDelete = facade.post([url: "$root/delete", body: [ids: ids]])
+                .andExpect(status().isOk())
+                .andReturn()
+        ResponseMapper.parseResponse(responseOfDelete).data.ids
     }
 
 }

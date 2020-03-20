@@ -1,11 +1,11 @@
 package app.functional.person
 
-
 import app.mockmvc.MockMvcFacade
 import app.mockmvc.ResponseMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern
@@ -29,34 +29,35 @@ class PersonFunctionalTest extends Specification {
                 .andExpect(status().isNotFound())
     }
 
-    def 'GET: by name not exists'() {
-        when:
-        def getByNameResponse = mockMvcFacade.get([url: "$root?name=X"])
+    def 'GET: if there is no person with the searched name - 400'() {
+        when: 'search for the persons with name'
+        def getByNameResponse = mockMvcFacade.get([url: "$root?name=FAKE"])
                 .andExpect(status().isBadRequest())
                 .andReturn()
         def errors = ResponseMapper.parseResponse(getByNameResponse).data.errors
 
-        then:
-        errors.message == ['There is no person with name X']
+        then: 'verify error messages'
+        errors.message == ['There is no person with name FAKE']
     }
 
-    def 'GET: by name'() {
-        given:
-        def id1 = personLifecycle.create([name: 'X', surname: 'Y1']).id
-        def id2 = personLifecycle.create([name: 'X', surname: 'Y2']).id
-        def id3 = personLifecycle.create([name: 'X', surname: 'Y3']).id
-        def id4 = personLifecycle.create([name: 'X', surname: 'Y4']).id
+    def 'GET: find all persons with given name'() {
+        given: 'create resources that would be further filtered'
+        def name = 'X'
+        def id1 = personLifecycle.create([name: name, surname: 'Y1']).id
+        def id2 = personLifecycle.create([name: name, surname: 'Y2']).id
+        def id3 = personLifecycle.create([name: name, surname: 'Y3']).id
+        def id4 = personLifecycle.create([name: name, surname: 'Y4']).id
         personLifecycle.create([name: 'X1', surname: 'Y4'])
         personLifecycle.create([name: 'X2', surname: 'Y4'])
         personLifecycle.create([name: 'X3', surname: 'Y4'])
 
-        when:
-        def getByNameResponse = mockMvcFacade.get([url: "$root?name=X"])
+        when: 'filter resources by given name'
+        def getByNameResponse = mockMvcFacade.get([url: "$root?name=$name"])
                 .andExpect(status().isOk())
                 .andReturn()
         def getByName = ResponseMapper.parseResponse(getByNameResponse).data.persons
 
-        then:
+        then: 'only resources with searched name'
         getByName.id == [id1, id2, id3, id4]
     }
 
@@ -72,8 +73,23 @@ class PersonFunctionalTest extends Specification {
         errors.message == ['Person with id 1 not found.']
     }
 
-    def 'POST verify response'() {
+
+    def 'DELETE: if resource exists - delete it and verify response'() {
         when: 'prepare resource to be further get'
+        def createdPerson = personLifecycle.create([
+                name   : 'X',
+                surname: 'Y'
+        ])
+
+        and: 'delete previously created resource'
+        def deletedPersonId = personLifecycle.deleteById(createdPerson.id)
+
+        then: 'verify response of delete'
+        deletedPersonId == createdPerson.id
+    }
+
+    def 'POST - create resource and verify response'() {
+        when: 'create resource'
         def responseOfCreate = mockMvcFacade.post([
                 url : root,
                 body: [
@@ -109,17 +125,53 @@ class PersonFunctionalTest extends Specification {
         getPerson.surname == 'Y'
     }
 
-    def 'DELETE: verify answer'() {
-        when: 'prepare resource to be further get'
-        def createdPerson = personLifecycle.create([
-                name   : 'X',
-                surname: 'Y'
+    def 'POST: batch delete resources if all exists'() {
+        given: 'prepare resources for further deletion'
+        def id1 = personLifecycle.create([name: 'A', surname: 'A']).id
+        def id2 = personLifecycle.create([name: 'B', surname: 'B']).id
+        def id3 = personLifecycle.create([name: 'C', surname: 'C']).id
+        def id4 = personLifecycle.create([name: 'D', surname: 'D']).id
+
+        when: 'delete in batch'
+        def deletedIds = personLifecycle.deleteByIds([id1, id2, id3, id4])
+
+        then: 'verify answer'
+        deletedIds == [id1, id2, id3, id4]
+
+        and: 'using get verify that resources were successfully removed'
+        personLifecycle.notExists(id1)
+        personLifecycle.notExists(id2)
+        personLifecycle.notExists(id3)
+        personLifecycle.notExists(id4)
+    }
+
+    @Ignore
+    def 'POST: batch delete resources if some does not exist'() {
+        given: 'ids of resources that do not exist'
+        def notExistingIds = ['1', '2', '3', '4']
+
+        and: 'create resource that also be in the batch for removal'
+        def notRemovedId = personLifecycle.create([name: 'A', surname: 'B']).id
+
+        and: 'prepare ids for deletion'
+        def ids = notExistingIds << notRemovedId
+
+        when: 'delete in batch when some resources does not exist'
+        def responseOfDelete = mockMvcFacade.post([
+                url : "$root/delete",
+                body: [ids: ids]
         ])
+                .andExpect(status().isBadRequest())
+                .andReturn()
+        def errors = ResponseMapper.parseResponse(responseOfDelete).data.errors
 
-        and: 'delete previously created resource'
-        def deletedPersonId = personLifecycle.delete(createdPerson.id)
+        then: 'verify that resources that does not exist are specified in error messages'
+        errors.message == ['Person with id 1 not found.',
+                           'Person with id 2 not found.',
+                           'Person with id 3 not found.',
+                           'Person with id 4 not found.']
 
-        then: 'verify response of get'
-        deletedPersonId == createdPerson.id
+        and: 'verify that other resources were not removed'
+        personLifecycle.get(notRemovedId)
     }
 }
