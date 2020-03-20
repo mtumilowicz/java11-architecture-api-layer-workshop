@@ -2,15 +2,13 @@ package app.domain.person;
 
 import app.domain.results.Failures;
 import app.domain.results.Results;
-import app.gateway.person.input.BatchDeleteApiInput;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +17,7 @@ import java.util.List;
 public class PersonService {
 
     PersonRepository personRepository;
+    TransactionTemplate transactionTemplate;
 
     public Either<Failures, Person> create(NewPersonCommand newPersonCommand) {
         return personRepository.save(Person.createFrom(newPersonCommand));
@@ -41,9 +40,12 @@ public class PersonService {
     }
 
     public Either<Failures, List<String>> deleteByIds(BatchDeleteCommand command) {
-        return command.ids()
-                .map(this::deleteById)
-                .map(result -> result.map(List::of))
-                .reduce(Either.right(new LinkedList<>()), Results::merge);
+        return transactionTemplate.execute(status ->
+                command.ids()
+                        .map(this::deleteById)
+                        .map(result -> result.map(List::of))
+                        .reduce(Either.right(new LinkedList<>()), Results::merge)
+                        .peekLeft(ignore -> status.setRollbackOnly())
+        );
     }
 }

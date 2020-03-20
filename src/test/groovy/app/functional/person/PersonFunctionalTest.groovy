@@ -145,7 +145,6 @@ class PersonFunctionalTest extends Specification {
         personLifecycle.notExists(id4)
     }
 
-    @Ignore
     def 'POST: batch delete resources if some does not exist'() {
         given: 'ids of resources that do not exist'
         def notExistingIds = ['1', '2', '3', '4']
