@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.function.Function;
+
 @RestController
 @RequestMapping("persons")
 public class PersonController {
@@ -35,5 +37,10 @@ public class PersonController {
                 PersonApiOutput::from,
                 person -> builder.path("persons/{id}").buildAndExpand(person.getId()).toUri()
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiOutput> delete(@PathVariable String id) {
+        return ResponseEntityBuilder.ok(personService.deleteById(id), "personId", Function.identity());
     }
 }

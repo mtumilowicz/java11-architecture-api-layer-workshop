@@ -1,10 +1,10 @@
 package app.infrastructure.person;
 
+import app.domain.person.Person;
+import app.domain.person.PersonRepository;
 import app.domain.results.ErrorCode;
 import app.domain.results.Failures;
 import app.domain.results.Results;
-import app.domain.person.Person;
-import app.domain.person.PersonRepository;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,6 @@ public class PersonDbRepository implements PersonRepository {
         } catch (RuntimeException ex) {
             return Results.appError(ErrorCode.SERVER_ERROR, "Database error.", ex);
         }
-
     }
 
     @Override
@@ -38,5 +37,22 @@ public class PersonDbRepository implements PersonRepository {
     @Override
     public Either<Failures, List<Person>> findByName(String name) {
         return Results.success(jpaRepository.findByName(name));
+    }
+
+    @Override
+    public Either<Failures, String> deleteById(String id) {
+        try {
+            jpaRepository.deleteById(id);
+            return Results.success(id);
+        } catch (RuntimeException ex) {
+            return Results.appError(ErrorCode.SERVER_ERROR, "Database error.", ex);
+        }
+    }
+
+    @Override
+    public Either<Failures, String> existsById(String id) {
+        return jpaRepository.existsById(id)
+                ? Results.success(id)
+                : Results.userError(ErrorCode.VALIDATION_ERROR, "Person with id " + id + " not found.");
     }
 }

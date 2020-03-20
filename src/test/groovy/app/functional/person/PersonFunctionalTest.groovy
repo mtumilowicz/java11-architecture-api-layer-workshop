@@ -30,6 +30,18 @@ class PersonFunctionalTest extends Specification {
                 .andExpect(status().isNotFound())
     }
 
+    def 'DELETE: if resource not exists - 400'() {
+        when:
+        def responseOfDelete = mockMvcFacade.delete([url: "$root/1"])
+                .andExpect(status().isBadRequest())
+                .andReturn()
+
+        def errors = ResponseMapper.parseResponse(responseOfDelete).data.errors
+
+        then:
+        errors.message == ['Person with id 1 not found.']
+    }
+
     def 'POST verify response'() {
         when: 'prepare resource to be further get'
         def responseOfCreate = mockMvcFacade.post([
@@ -65,5 +77,19 @@ class PersonFunctionalTest extends Specification {
         getPerson.id == createdPerson.id
         getPerson.name == 'X'
         getPerson.surname == 'Y'
+    }
+
+    def 'DELETE: verify answer'() {
+        when: 'prepare resource to be further get'
+        def createdPerson = personLifecycle.create([
+                name   : 'X',
+                surname: 'Y'
+        ])
+
+        and: 'delete previously created resource'
+        def deletedPersonId = personLifecycle.delete(createdPerson.id)
+
+        then: 'verify response of get'
+        deletedPersonId == createdPerson.id
     }
 }

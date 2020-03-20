@@ -13,4 +13,8 @@ public interface PersonRepository {
     Option<Person> findById(String id);
 
     Either<Failures, List<Person>> findByName(String name);
+
+    Either<Failures, String> deleteById(String id);
+
+    Either<Failures, String> existsById(String id);
 }
