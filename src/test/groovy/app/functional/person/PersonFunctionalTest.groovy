@@ -42,7 +42,7 @@ class PersonFunctionalTest extends Specification {
                 .andExpect(status().isCreated())
                 .andExpect(redirectedUrlPattern("**$root/*"))
                 .andReturn()
-        def createdPerson = ResponseMapper.parseResponse(responseOfCreate, SuccessApiOutput).data.person
+        def createdPerson = ResponseMapper.parseResponse(responseOfCreate).data.person
 
         then: 'verify response of create'
         createdPerson.id

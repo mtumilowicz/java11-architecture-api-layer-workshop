@@ -23,14 +23,14 @@ class PersonLifecycle {
         def responseOfCreate = facade.post([url: root, body: person])
                 .andExpect(status().isCreated())
                 .andReturn()
-        ResponseMapper.parseResponse(responseOfCreate, SuccessApiOutput).data.person
+        ResponseMapper.parseResponse(responseOfCreate).data.person
     }
 
     def get(id) {
         def responseOfGet = facade.get([url: "$root/$id"])
                 .andExpect(status().isOk())
                 .andReturn()
-        ResponseMapper.parseResponse(responseOfGet, SuccessApiOutput).data.person
+        ResponseMapper.parseResponse(responseOfGet).data.person
     }
 
 }

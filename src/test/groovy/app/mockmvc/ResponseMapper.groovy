@@ -7,10 +7,10 @@ class ResponseMapper {
 
     static ObjectMapper MAPPER = new ObjectMapper()
 
-    static <T> T parseResponse(MvcResult result, Class<T> responseClass) {
+    static <T> T parseResponse(MvcResult result) {
         try {
             String contentAsString = result.getResponse().getContentAsString()
-            return MAPPER.readValue(contentAsString, responseClass)
+            return MAPPER.readValue(contentAsString, Object.class)
         } catch (IOException e) {
             throw new RuntimeException(e)
         }
