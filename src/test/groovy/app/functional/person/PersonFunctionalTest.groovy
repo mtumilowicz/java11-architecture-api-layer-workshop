@@ -1,7 +1,6 @@
 package app.functional.person
 
 
-import app.gateway.output.SuccessApiOutput
 import app.mockmvc.MockMvcFacade
 import app.mockmvc.ResponseMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +27,37 @@ class PersonFunctionalTest extends Specification {
         expect:
         mockMvcFacade.get([url: "$root/1"])
                 .andExpect(status().isNotFound())
+    }
+
+    def 'GET: by name not exists'() {
+        when:
+        def getByNameResponse = mockMvcFacade.get([url: "$root?name=X"])
+                .andExpect(status().isBadRequest())
+                .andReturn()
+        def errors = ResponseMapper.parseResponse(getByNameResponse).data.errors
+
+        then:
+        errors.message == ['There is no person with name X']
+    }
+
+    def 'GET: by name'() {
+        given:
+        def id1 = personLifecycle.create([name: 'X', surname: 'Y1']).id
+        def id2 = personLifecycle.create([name: 'X', surname: 'Y2']).id
+        def id3 = personLifecycle.create([name: 'X', surname: 'Y3']).id
+        def id4 = personLifecycle.create([name: 'X', surname: 'Y4']).id
+        personLifecycle.create([name: 'X1', surname: 'Y4'])
+        personLifecycle.create([name: 'X2', surname: 'Y4'])
+        personLifecycle.create([name: 'X3', surname: 'Y4'])
+
+        when:
+        def getByNameResponse = mockMvcFacade.get([url: "$root?name=X"])
+                .andExpect(status().isOk())
+                .andReturn()
+        def getByName = ResponseMapper.parseResponse(getByNameResponse).data.persons
+
+        then:
+        getByName.id == [id1, id2, id3, id4]
     }
 
     def 'DELETE: if resource not exists - 400'() {

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PersonDbRepository implements PersonRepository {
@@ -36,7 +37,9 @@ public class PersonDbRepository implements PersonRepository {
 
     @Override
     public Either<Failures, List<Person>> findByName(String name) {
-        return Results.success(jpaRepository.findByName(name));
+        var entities = jpaRepository.findByName(name);
+        var persons = entities.stream().map(PersonEntity::toDomain).collect(Collectors.toList());
+        return Results.success(persons);
     }
 
     @Override
