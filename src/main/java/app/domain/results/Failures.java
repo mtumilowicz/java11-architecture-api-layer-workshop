@@ -1,5 +1,7 @@
 package app.domain.results;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import io.vavr.Tuple;
@@ -15,21 +17,21 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Builder(toBuilder = true, access = AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PRIVATE)
 @ToString
 public class Failures {
 
     @Singular
-    private List<Failure> failures;
+    private ImmutableList<Failure> failures;
 
-    public List<Map<String, String>> asTuples() {
+    public ImmutableList<ImmutableMap<String, String>> asTuples() {
         return failures.stream()
                 .map(Failure::toTuple)
-                .collect(Collectors.toList());
+                .collect(Collectors.collectingAndThen(Collectors.toList(), ImmutableList::copyOf));
     }
 
     public Failures merge(Failures failures) {
-        this.failures = Lists.newArrayList(Iterables.concat(this.failures, failures.failures));
+        this.failures = ImmutableList.copyOf(Iterables.concat(this.failures, failures.failures));
         return this;
     }
 

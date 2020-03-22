@@ -1,5 +1,6 @@
 package app.domain.results;
 
+import com.google.common.collect.ImmutableMap;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,8 +15,8 @@ class Failure {
 
     String message;
 
-    public Map<String, String> toTuple() {
-        return Map.of(key, message);
+    public ImmutableMap<String, String> toTuple() {
+        return ImmutableMap.of(key, message);
     }
 
     public static Failure of(String key, String message) {
