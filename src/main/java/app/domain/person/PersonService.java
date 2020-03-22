@@ -45,7 +45,7 @@ public class PersonService {
                 command.ids()
                         .map(this::deleteById)
                         .map(result -> result.map(List::of))
-                        .reduce(Either.right(new LinkedList<>()), Results::merge)
+                        .reduce(Results.success(new LinkedList<>()), Results::merge)
         );
     }
 }
