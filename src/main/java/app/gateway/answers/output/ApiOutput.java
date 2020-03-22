@@ -5,9 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Builder(access = AccessLevel.PACKAGE)
 @Getter
@@ -18,11 +16,9 @@ public class ApiOutput {
     private Map<String, Object> data;
 
     static ApiOutput fail(Failures failures) {
-        var apiErrors = failures.asTuples();
-
         return ApiOutput.builder()
                 .status("fail")
-                .data(Map.of("errors", apiErrors))
+                .data(Map.of("errors", failures.asTuples()))
                 .build();
     }
 

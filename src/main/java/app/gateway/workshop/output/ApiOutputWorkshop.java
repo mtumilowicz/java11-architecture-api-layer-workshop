@@ -16,11 +16,9 @@ public class ApiOutputWorkshop {
     private Map<String, Object> data;
 
     static ApiOutputWorkshop fail(Failures failures) {
-        var apiErrors = failures.asTuples();
-
         return ApiOutputWorkshop.builder()
                 .status("fail")
-                .data(Map.of("errors", apiErrors))
+                .data(Map.of("errors", failures.asTuples()))
                 .build();
     }
 
