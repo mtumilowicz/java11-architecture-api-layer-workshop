@@ -1,11 +1,11 @@
-package app.gateway.person;
+package app.gateway.answers.person;
 
 import app.domain.person.PersonService;
-import app.gateway.output.ApiOutput;
-import app.gateway.output.ResponseEntityBuilder;
-import app.gateway.person.input.BatchDeleteApiInput;
-import app.gateway.person.input.NewPersonApiInput;
-import app.gateway.person.output.PersonApiOutput;
+import app.gateway.answers.output.ResponseEntityBuilder;
+import app.gateway.answers.person.input.NewPersonApiInput;
+import app.gateway.answers.person.output.PersonApiOutput;
+import app.gateway.answers.output.ApiOutput;
+import app.gateway.answers.person.input.BatchDeleteApiInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

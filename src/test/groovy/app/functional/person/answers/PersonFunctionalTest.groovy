@@ -1,7 +1,7 @@
-package app.functional.person
+package app.functional.person.answers
 
-import app.mockmvc.MockMvcFacade
-import app.mockmvc.ResponseMapper
+import app.mockmvc.answers.MockMvcFacade
+import app.mockmvc.answers.ResponseMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest

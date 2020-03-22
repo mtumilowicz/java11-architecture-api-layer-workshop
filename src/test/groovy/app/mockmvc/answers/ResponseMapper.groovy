@@ -1,4 +1,4 @@
-package app.mockmvc
+package app.mockmvc.answers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.test.web.servlet.MvcResult

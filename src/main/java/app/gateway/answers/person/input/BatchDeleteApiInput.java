@@ -1,4 +1,4 @@
-package app.gateway.person.input;
+package app.gateway.answers.person.input;
 
 import app.domain.person.BatchDeleteCommand;
 import com.google.common.collect.ImmutableList;

@@ -1,4 +1,4 @@
-package app.gateway.person.output;
+package app.gateway.answers.person.output;
 
 import app.domain.person.Person;
 import lombok.AllArgsConstructor;
