@@ -34,7 +34,7 @@ public class Results {
 
     public static <T> Either<Failures, List<T>> merge(Either<Failures, List<T>> first, Either<Failures, List<T>> second) {
         return Either.sequence(Arrays.asList(first, second))
-                .map(x -> x.flatMap(Function.identity()))
+                .map(failures -> failures.flatMap(Function.identity()))
                 .map(Value::toJavaList)
                 .mapLeft(failures -> failures.reduce(Failures::merge));
     }
