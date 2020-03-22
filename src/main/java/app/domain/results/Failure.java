@@ -8,13 +8,13 @@ import java.util.Map;
 
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class Failure {
+class Failure {
 
     String key;
 
     String message;
 
-    public Map<String, String> asMap() {
+    public Map<String, String> toTuple() {
         return Map.of(key, message);
     }
 

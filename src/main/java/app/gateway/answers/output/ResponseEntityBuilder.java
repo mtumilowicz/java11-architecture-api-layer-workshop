@@ -31,9 +31,9 @@ public class ResponseEntityBuilder {
     }
 
     public <T> ResponseEntity<ApiOutput> created(Either<Failures, T> result,
-                                                        String name,
-                                                        Function<T, ?> mapper,
-                                                        Function<T, URI> uriMapper) {
+                                                 String name,
+                                                 Function<T, ?> mapper,
+                                                 Function<T, URI> uriMapper) {
         return result.map(item -> {
                     var url = uriMapper.apply(item);
                     var body = ApiOutput.success(name, mapper.apply(item));
@@ -44,8 +44,8 @@ public class ResponseEntityBuilder {
     }
 
     public <T> ResponseEntity<ApiOutput> okList(Either<Failures, List<T>> result,
-                                                       String name,
-                                                       Function<T, ?> mapper) {
+                                                String name,
+                                                Function<T, ?> mapper) {
         return result.map(items -> {
             var data = items.stream()
                     .map(mapper)
@@ -56,10 +56,7 @@ public class ResponseEntityBuilder {
     }
 
     private ResponseEntity<ApiOutput> fromFailure(Failures failures) {
-        return failures.map(userErrors -> {
-                    ApiOutput body = ApiOutput.fail(userErrors);
-                    return ResponseEntity.status(400).body(body);
-                }
-        );
+        ApiOutput body = ApiOutput.fail(failures);
+        return ResponseEntity.status(400).body(body);
     }
 }

@@ -1,13 +1,11 @@
 package app.gateway.workshop.output;
 
-import app.domain.results.Failure;
+import app.domain.results.Failures;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Builder(access = AccessLevel.PACKAGE)
 @Getter
@@ -17,10 +15,8 @@ public class ApiOutputWorkshop {
 
     private Map<String, Object> data;
 
-    static ApiOutputWorkshop fail(List<Failure> failures) {
-        var apiErrors = failures.stream()
-                .map(Failure::asMap)
-                .collect(Collectors.toList());
+    static ApiOutputWorkshop fail(Failures failures) {
+        var apiErrors = failures.asTuples();
 
         return ApiOutputWorkshop.builder()
                 .status("fail")

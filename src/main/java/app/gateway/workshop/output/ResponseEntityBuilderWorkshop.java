@@ -56,10 +56,7 @@ public class ResponseEntityBuilderWorkshop {
     }
 
     private ResponseEntity<ApiOutputWorkshop> fromFailure(Failures failures) {
-        return failures.map(userErrors -> {
-                    ApiOutputWorkshop body = ApiOutputWorkshop.fail(userErrors);
-                    return ResponseEntity.status(400).body(body);
-                }
-        );
+        ApiOutputWorkshop body = ApiOutputWorkshop.fail(failures);
+        return ResponseEntity.status(400).body(body);
     }
 }
