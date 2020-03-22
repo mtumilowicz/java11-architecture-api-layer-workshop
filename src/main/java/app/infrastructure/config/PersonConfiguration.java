@@ -2,7 +2,7 @@ package app.infrastructure.config;
 
 import app.domain.person.PersonRepository;
 import app.domain.person.PersonService;
-import app.gateway.transactional.Transaction;
+import app.infrastructure.transactional.Transaction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

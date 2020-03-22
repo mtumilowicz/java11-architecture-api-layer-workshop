@@ -27,7 +27,7 @@ public class PersonController {
 
     @GetMapping
     public ResponseEntity<ApiOutput> findByName(@RequestParam String name) {
-        return ResponseEntityBuilder.list200(personService.findByName(name), "persons", PersonApiOutput::from);
+        return ResponseEntityBuilder.okList(personService.findByName(name), "persons", PersonApiOutput::from);
     }
 
     @PostMapping
@@ -43,7 +43,7 @@ public class PersonController {
     @PostMapping("/delete")
     public ResponseEntity<ApiOutput> batchDelete(@RequestBody BatchDeleteApiInput input) {
         var createResult = personService.deleteByIds(input.toDomain());
-        return ResponseEntityBuilder.list200(createResult,
+        return ResponseEntityBuilder.okList(createResult,
                 "ids",
                 Function.identity());
     }

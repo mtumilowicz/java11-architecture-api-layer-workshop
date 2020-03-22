@@ -1,4 +1,4 @@
-package app.gateway.transactional;
+package app.infrastructure.transactional;
 
 import app.domain.results.Failures;
 import io.vavr.control.Either;

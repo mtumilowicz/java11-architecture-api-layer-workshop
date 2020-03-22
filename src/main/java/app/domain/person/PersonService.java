@@ -2,7 +2,7 @@ package app.domain.person;
 
 import app.domain.results.Failures;
 import app.domain.results.Results;
-import app.gateway.transactional.Transaction;
+import app.infrastructure.transactional.Transaction;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import lombok.AccessLevel;

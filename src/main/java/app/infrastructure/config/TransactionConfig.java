@@ -1,6 +1,6 @@
 package app.infrastructure.config;
 
-import app.gateway.transactional.Transaction;
+import app.infrastructure.transactional.Transaction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.support.TransactionTemplate;

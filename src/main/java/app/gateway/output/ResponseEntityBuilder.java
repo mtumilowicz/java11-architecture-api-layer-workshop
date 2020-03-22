@@ -41,9 +41,9 @@ public class ResponseEntityBuilder {
         ).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
-    public static <T> ResponseEntity<ApiOutput> list200(Either<Failures, List<T>> result,
-                                                        String name,
-                                                        Function<T, ?> mapper) {
+    public static <T> ResponseEntity<ApiOutput> okList(Either<Failures, List<T>> result,
+                                                       String name,
+                                                       Function<T, ?> mapper) {
         return result.map(items -> {
             var data = items.stream()
                     .map(mapper)
