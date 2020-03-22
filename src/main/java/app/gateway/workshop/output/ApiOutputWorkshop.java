@@ -2,37 +2,47 @@ package app.gateway.workshop.output;
 
 import app.domain.results.AppError;
 import app.domain.results.UserError;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public interface ApiOutputWorkshop {
+@Builder(access = AccessLevel.PACKAGE)
+@Getter
+public class ApiOutputWorkshop {
+
+    private String status;
+
+    private Map<String, Object> data;
 
     static ApiOutputWorkshop error(List<AppError> appErrors) {
-        List<Map<String, String>> apiErrors = appErrors.stream()
-                .distinct()
+        var apiErrors = appErrors.stream()
                 .map(AppError::asMap)
                 .collect(Collectors.toList());
 
-        return ErrorApiOutputWorkshop.builder()
+        return ApiOutputWorkshop.builder()
+                .status("error")
                 .data(Map.of("errors", apiErrors))
                 .build();
     }
 
     static ApiOutputWorkshop fail(List<UserError> userErrors) {
-        List<Map<String, String>> apiErrors = userErrors.stream()
-                .distinct()
+        var apiErrors = userErrors.stream()
                 .map(UserError::asMap)
                 .collect(Collectors.toList());
 
-        return FailApiOutputWorkshop.builder()
+        return ApiOutputWorkshop.builder()
+                .status("fail")
                 .data(Map.of("errors", apiErrors))
                 .build();
     }
 
     static ApiOutputWorkshop success(String name, Object data) {
-        return SuccessApiOutputWorkshop.builder()
+        return ApiOutputWorkshop.builder()
+                .status("success")
                 .data(Map.of(name, data))
                 .build();
     }
