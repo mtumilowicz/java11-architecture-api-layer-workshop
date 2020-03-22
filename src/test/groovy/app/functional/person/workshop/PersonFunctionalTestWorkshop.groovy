@@ -42,7 +42,7 @@ class PersonFunctionalTestWorkshop extends Specification {
 
     def 'GET: find all persons with given name'() {
         given: 'create resources that would be further filtered'
-        def name = 'X'
+        def name = 'Y'
         def id1 = personLifecycle.create([name: name, surname: 'Y1']).id
         def id2 = personLifecycle.create([name: name, surname: 'Y2']).id
         def id3 = personLifecycle.create([name: name, surname: 'Y3']).id
