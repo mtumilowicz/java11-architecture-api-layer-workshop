@@ -19,8 +19,12 @@ public class Results {
         return Either.left(Failures.fromUserError("message", message));
     }
 
-    public static <T> Either<Failures, T> appError( String message, Throwable t) {
-        return Either.left(Failures.fromAppError( message, t));
+    public static <T> Either<Failures, T> userError(String key, String message) {
+        return Either.left(Failures.fromUserError(key, message));
+    }
+
+    public static <T> Either<Failures, T> appError(String message, Throwable t) {
+        return Either.left(Failures.fromAppError(message, t));
     }
 
     public static <T> Either<Failures, List<T>> requireNotEmpty(Either<Failures, List<T>> list, String message) {
@@ -28,7 +32,7 @@ public class Results {
                 .getOrElse(Results.userError(message));
     }
 
-    public static  <T> Either<Failures, List<T>> reduce(Either<Failures, List<T>> first, Either<Failures, T> second) {
+    public static <T> Either<Failures, List<T>> reduce(Either<Failures, List<T>> first, Either<Failures, T> second) {
         return merge(first, second.map(List::of));
     }
 

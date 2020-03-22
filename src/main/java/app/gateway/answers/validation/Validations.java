@@ -1,6 +1,7 @@
 package app.gateway.answers.validation;
 
 import app.domain.results.Failures;
+import app.domain.results.Results;
 import io.vavr.control.Option;
 import io.vavr.control.Validation;
 
@@ -11,6 +12,6 @@ public class Validations {
         return Option.of(obj)
                 .filter(Objects::nonNull)
                 .map(Validation::<Failures, T>valid)
-                .getOrElse(Validation.invalid(Failures.fromUserError(name, "Cannot be null")));
+                .getOrElse(Validation.fromEither(Results.userError(name, "Cannot be null")));
     }
 }

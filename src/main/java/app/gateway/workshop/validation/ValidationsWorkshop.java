@@ -1,8 +1,10 @@
 package app.gateway.workshop.validation;
 
 import app.domain.results.Failures;
+import app.domain.results.Results;
 import io.vavr.control.Option;
 import io.vavr.control.Validation;
+import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration;
 
 import java.util.Objects;
 
@@ -11,6 +13,6 @@ public class ValidationsWorkshop {
         return Option.of(obj)
                 .filter(Objects::nonNull)
                 .map(Validation::<Failures, T>valid)
-                .getOrElse(Validation.invalid(Failures.fromUserError(name, "Cannot be null")));
+                .getOrElse(Validation.fromEither(Results.userError(name, "Cannot be null")));
     }
 }
