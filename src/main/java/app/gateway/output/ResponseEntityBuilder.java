@@ -3,6 +3,7 @@ package app.gateway.output;
 import app.domain.results.Failures;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
+import lombok.experimental.UtilityClass;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
@@ -10,9 +11,10 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class ResponseEntityBuilder {
 
-    public static <T> ResponseEntity<ApiOutput> okOrNotFound(Option<T> domainObject, String name, Function<T, ?> mapper) {
+    public <T> ResponseEntity<ApiOutput> okOrNotFound(Option<T> domainObject, String name, Function<T, ?> mapper) {
         return domainObject
                 .map(item -> {
                     var body = ApiOutput.success(name, mapper.apply(item));
@@ -20,7 +22,7 @@ public class ResponseEntityBuilder {
                 }).getOrElse(ResponseEntity.notFound().build());
     }
 
-    public static <T> ResponseEntity<ApiOutput> ok(Either<Failures, T> result, String name, Function<T, ?> mapper) {
+    public <T> ResponseEntity<ApiOutput> ok(Either<Failures, T> result, String name, Function<T, ?> mapper) {
         return result
                 .map(item -> {
                     var body = ApiOutput.success(name, mapper.apply(item));
@@ -28,7 +30,7 @@ public class ResponseEntityBuilder {
                 }).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
-    public static <T> ResponseEntity<ApiOutput> created(Either<Failures, T> result,
+    public <T> ResponseEntity<ApiOutput> created(Either<Failures, T> result,
                                                         String name,
                                                         Function<T, ?> mapper,
                                                         Function<T, URI> uriMapper) {
@@ -41,7 +43,7 @@ public class ResponseEntityBuilder {
         ).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
-    public static <T> ResponseEntity<ApiOutput> okList(Either<Failures, List<T>> result,
+    public <T> ResponseEntity<ApiOutput> okList(Either<Failures, List<T>> result,
                                                        String name,
                                                        Function<T, ?> mapper) {
         return result.map(items -> {
@@ -53,7 +55,7 @@ public class ResponseEntityBuilder {
         }).getOrElseGet(ResponseEntityBuilder::fromFailure);
     }
 
-    private static ResponseEntity<ApiOutput> fromFailure(Failures failures) {
+    private ResponseEntity<ApiOutput> fromFailure(Failures failures) {
         return failures.transform(
                 appErrors -> {
                     ApiOutput body = ApiOutput.error(appErrors);
