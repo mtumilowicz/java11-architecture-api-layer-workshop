@@ -5,7 +5,6 @@ import app.mockmvc.ResponseMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import spock.lang.Ignore
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern
@@ -125,7 +124,7 @@ class PersonFunctionalTest extends Specification {
         getPerson.surname == 'Y'
     }
 
-    def 'POST: batch delete resources if all exists'() {
+    def 'POST batch delete resources: positive scenario - all resources exist'() {
         given: 'prepare resources for further deletion'
         def id1 = personLifecycle.create([name: 'A', surname: 'A']).id
         def id2 = personLifecycle.create([name: 'B', surname: 'B']).id
@@ -145,7 +144,7 @@ class PersonFunctionalTest extends Specification {
         personLifecycle.notExists(id4)
     }
 
-    def 'POST: batch delete resources if some does not exist'() {
+    def 'POST batch delete resources: negative scenario - some resources do not exist'() {
         given: 'ids of resources that do not exist'
         def notExistingIds = ['1', '2', '3', '4']
 
