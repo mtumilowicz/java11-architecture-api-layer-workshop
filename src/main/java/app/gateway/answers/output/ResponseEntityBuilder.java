@@ -56,11 +56,7 @@ public class ResponseEntityBuilder {
     }
 
     private ResponseEntity<ApiOutput> fromFailure(Failures failures) {
-        return failures.transform(
-                appErrors -> {
-                    ApiOutput body = ApiOutput.error(appErrors);
-                    return ResponseEntity.status(500).body(body);
-                }, userErrors -> {
+        return failures.map(userErrors -> {
                     ApiOutput body = ApiOutput.fail(userErrors);
                     return ResponseEntity.status(400).body(body);
                 }

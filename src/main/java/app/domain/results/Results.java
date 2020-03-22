@@ -23,10 +23,6 @@ public class Results {
         return Either.left(Failures.fromUserError(key, message));
     }
 
-    public static <T> Either<Failures, T> appError(String message, Throwable t) {
-        return Either.left(Failures.fromAppError(message, t));
-    }
-
     public static <T> Either<Failures, List<T>> requireNotEmpty(Either<Failures, List<T>> list, String message) {
         return list.filter(not(List::isEmpty))
                 .getOrElse(Results.userError(message));

@@ -12,24 +12,16 @@ import java.util.function.Function;
 @ToString
 public class Failures {
 
-    @Getter
-    @Singular
-    private List<AppError> appErrors;
-
-    @Getter
     @Singular
     private List<UserError> userErrors;
 
     public Failures merge(Failures failures) {
-        appErrors = Lists.newArrayList(Iterables.concat(appErrors, failures.appErrors));
         userErrors = Lists.newArrayList(Iterables.concat(userErrors, failures.userErrors));
         return this;
     }
 
-    public <T> T transform(Function<List<AppError>, T> appErrorsMapper, Function<List<UserError>, T> userErrorsConsumer) {
-        return appErrors.isEmpty()
-                ? userErrorsConsumer.apply(userErrors)
-                : appErrorsMapper.apply(appErrors);
+    public <T> T map(Function<List<UserError>, T> mapper) {
+        return mapper.apply(userErrors);
     }
 
     public static Failures merge(Seq<Failures> failures) {
@@ -42,17 +34,6 @@ public class Failures {
                         UserError.builder()
                                 .key(key)
                                 .message(message)
-                                .build()
-                )
-                .build();
-    }
-
-    static Failures fromAppError(String message, Throwable t) {
-        return Failures.builder()
-                .appError(
-                        AppError.builder()
-                                .message(message)
-                                .cause(t)
                                 .build()
                 )
                 .build();

@@ -6,6 +6,7 @@ import app.domain.results.Failures;
 import app.domain.results.Results;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
+@Log4j2
 public class PersonDbRepository implements PersonRepository {
 
     @Autowired
@@ -25,7 +27,7 @@ public class PersonDbRepository implements PersonRepository {
             PersonEntity entity = jpaRepository.save(PersonEntity.from(person));
             return Results.success(entity.toDomain());
         } catch (RuntimeException ex) {
-            return Results.appError("Database error.", ex);
+            return Results.userError("Database error during person saving.");
         }
     }
 
@@ -47,7 +49,7 @@ public class PersonDbRepository implements PersonRepository {
             jpaRepository.deleteById(id);
             return Results.success(id);
         } catch (RuntimeException ex) {
-            return Results.appError("Database error.", ex);
+            return Results.userError("Database error during person saving.");
         }
     }
 

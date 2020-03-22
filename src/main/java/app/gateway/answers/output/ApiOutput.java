@@ -1,6 +1,5 @@
 package app.gateway.answers.output;
 
-import app.domain.results.AppError;
 import app.domain.results.UserError;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,17 +16,6 @@ public class ApiOutput {
     private String status;
 
     private Map<String, Object> data;
-
-    static ApiOutput error(List<AppError> appErrors) {
-        var apiErrors = appErrors.stream()
-                .map(AppError::asMap)
-                .collect(Collectors.toList());
-
-        return ApiOutput.builder()
-                .status("error")
-                .data(Map.of("errors", apiErrors))
-                .build();
-    }
 
     static ApiOutput fail(List<UserError> userErrors) {
         var apiErrors = userErrors.stream()
