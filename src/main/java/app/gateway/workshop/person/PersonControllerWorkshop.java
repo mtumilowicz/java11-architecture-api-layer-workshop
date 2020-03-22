@@ -36,7 +36,7 @@ public class PersonControllerWorkshop {
         return ResponseEntityBuilderWorkshop.created(createResult,
                 "person",
                 PersonApiOutputWorkshop::from,
-                person -> builder.path("persons/{id}").buildAndExpand(person.getId()).toUri()
+                person -> builder.path("workshop/persons/{id}").buildAndExpand(person.getId()).toUri()
         );
     }
 
