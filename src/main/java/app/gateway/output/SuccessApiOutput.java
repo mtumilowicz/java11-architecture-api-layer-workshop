@@ -6,8 +6,6 @@ import java.util.Map;
 
 @Builder(access = AccessLevel.PACKAGE)
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 class SuccessApiOutput implements ApiOutput {
 
     private final String status = "success";
