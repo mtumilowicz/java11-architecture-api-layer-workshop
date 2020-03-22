@@ -44,7 +44,7 @@ public class PersonController {
     public ResponseEntity<ApiOutput> batchDelete(@RequestBody BatchDeleteApiInput input) {
         var createResult = personService.deleteByIds(input.toDomain());
         return ResponseEntityBuilder.okList(createResult,
-                "ids",
+                "personIds",
                 Function.identity());
     }
 

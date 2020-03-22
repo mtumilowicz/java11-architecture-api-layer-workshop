@@ -46,7 +46,7 @@ class PersonLifecycle {
         def responseOfDelete = facade.post([url: "$root/delete", body: [ids: ids]])
                 .andExpect(status().isOk())
                 .andReturn()
-        ResponseMapper.parseResponse(responseOfDelete).data.ids
+        ResponseMapper.parseResponse(responseOfDelete).data.personIds
     }
 
 }
