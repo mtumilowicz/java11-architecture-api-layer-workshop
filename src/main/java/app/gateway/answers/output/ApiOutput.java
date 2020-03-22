@@ -10,8 +10,7 @@ import java.util.stream.Collectors;
 public interface ApiOutput {
 
     static ApiOutput error(List<AppError> appErrors) {
-        List<Map<String, String>> apiErrors = appErrors.stream()
-                .distinct()
+        var apiErrors = appErrors.stream()
                 .map(AppError::asMap)
                 .collect(Collectors.toList());
 
@@ -21,8 +20,7 @@ public interface ApiOutput {
     }
 
     static ApiOutput fail(List<UserError> userErrors) {
-        List<Map<String, String>> apiErrors = userErrors.stream()
-                .distinct()
+        var apiErrors = userErrors.stream()
                 .map(UserError::asMap)
                 .collect(Collectors.toList());
 

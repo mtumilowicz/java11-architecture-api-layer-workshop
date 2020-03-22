@@ -15,17 +15,17 @@ public class Results {
         return Either.right(value);
     }
 
-    public static <T> Either<Failures, T> userError(ErrorCode errorCode, String message) {
-        return Either.left(Failures.fromUserError(errorCode, "message", message));
+    public static <T> Either<Failures, T> userError(String message) {
+        return Either.left(Failures.fromUserError("message", message));
     }
 
-    public static <T> Either<Failures, T> appError(ErrorCode errorCode, String message, Throwable t) {
-        return Either.left(Failures.fromAppError(errorCode, message, t));
+    public static <T> Either<Failures, T> appError( String message, Throwable t) {
+        return Either.left(Failures.fromAppError( message, t));
     }
 
     public static <T> Either<Failures, List<T>> requireNotEmpty(Either<Failures, List<T>> list, String message) {
         return list.filter(not(List::isEmpty))
-                .getOrElse(Results.userError(ErrorCode.VALIDATION_ERROR, message));
+                .getOrElse(Results.userError(message));
     }
 
     public static  <T> Either<Failures, List<T>> reduce(Either<Failures, List<T>> first, Either<Failures, T> second) {

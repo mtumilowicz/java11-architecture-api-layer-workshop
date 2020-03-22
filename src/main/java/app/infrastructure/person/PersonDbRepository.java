@@ -2,7 +2,6 @@ package app.infrastructure.person;
 
 import app.domain.person.Person;
 import app.domain.person.PersonRepository;
-import app.domain.results.ErrorCode;
 import app.domain.results.Failures;
 import app.domain.results.Results;
 import io.vavr.control.Either;
@@ -26,7 +25,7 @@ public class PersonDbRepository implements PersonRepository {
             PersonEntity entity = jpaRepository.save(PersonEntity.from(person));
             return Results.success(entity.toDomain());
         } catch (RuntimeException ex) {
-            return Results.appError(ErrorCode.SERVER_ERROR, "Database error.", ex);
+            return Results.appError("Database error.", ex);
         }
     }
 
@@ -48,7 +47,7 @@ public class PersonDbRepository implements PersonRepository {
             jpaRepository.deleteById(id);
             return Results.success(id);
         } catch (RuntimeException ex) {
-            return Results.appError(ErrorCode.SERVER_ERROR, "Database error.", ex);
+            return Results.appError("Database error.", ex);
         }
     }
 
@@ -56,6 +55,6 @@ public class PersonDbRepository implements PersonRepository {
     public Either<Failures, String> existsById(String id) {
         return jpaRepository.existsById(id)
                 ? Results.success(id)
-                : Results.userError(ErrorCode.VALIDATION_ERROR, "Person with id " + id + " not found.");
+                : Results.userError("Person with id " + id + " not found.");
     }
 }

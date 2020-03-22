@@ -36,11 +36,10 @@ public class Failures {
         return failures.reduceLeft(Failures::merge);
     }
 
-    public static Failures fromUserError(ErrorCode errorCode, String key, String message) {
+    public static Failures fromUserError(String key, String message) {
         return Failures.builder()
                 .userError(
                         UserError.builder()
-                                .code(errorCode)
                                 .key(key)
                                 .message(message)
                                 .build()
@@ -48,11 +47,10 @@ public class Failures {
                 .build();
     }
 
-    public static Failures fromAppError(ErrorCode errorCode, String message, Throwable t) {
+    public static Failures fromAppError(String message, Throwable t) {
         return Failures.builder()
                 .appError(
                         AppError.builder()
-                                .code(errorCode)
                                 .message(message)
                                 .cause(t)
                                 .build()

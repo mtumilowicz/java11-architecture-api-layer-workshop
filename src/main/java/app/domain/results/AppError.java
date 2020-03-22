@@ -13,7 +13,6 @@ import java.util.Map;
 @Getter
 public class AppError {
 
-    private ErrorCode code;
     private String message;
 
     @EqualsAndHashCode.Exclude
