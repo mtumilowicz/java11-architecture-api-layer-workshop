@@ -1,6 +1,6 @@
 package app.gateway.workshop.person.input;
 
-import app.domain.person.BatchDeleteCommand;
+import app.domain.person.BatchDeletePersonsCommand;
 import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +13,11 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BatchDeleteApiInputWorkshop {
+public class BatchDeletePersonsApiInputWorkshop {
     List<String> ids;
 
-    public BatchDeleteCommand toDomain() {
-        return BatchDeleteCommand.builder()
+    public BatchDeletePersonsCommand toDomain() {
+        return BatchDeletePersonsCommand.builder()
                 .ids(ImmutableList.copyOf(ids))
                 .build();
     }

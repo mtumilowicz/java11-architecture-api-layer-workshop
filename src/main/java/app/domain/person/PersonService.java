@@ -40,7 +40,7 @@ public class PersonService {
         return personRepository.existsById(id);
     }
 
-    public Either<Failures, List<String>> deleteByIds(BatchDeleteCommand command) {
+    public Either<Failures, List<String>> deleteByIds(BatchDeletePersonsCommand command) {
         return transaction.execute(() ->
                 command.ids()
                         .map(this::deleteById)

@@ -5,7 +5,7 @@ import app.gateway.answers.output.ResponseEntityBuilder;
 import app.gateway.answers.person.input.NewPersonApiInput;
 import app.gateway.answers.person.output.PersonApiOutput;
 import app.gateway.answers.output.ApiOutput;
-import app.gateway.answers.person.input.BatchDeleteApiInput;
+import app.gateway.answers.person.input.BatchDeletePersonsApiInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +41,7 @@ public class PersonController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<ApiOutput> batchDelete(@RequestBody BatchDeleteApiInput input) {
+    public ResponseEntity<ApiOutput> batchDelete(@RequestBody BatchDeletePersonsApiInput input) {
         var createResult = personService.deleteByIds(input.toDomain());
         return ResponseEntityBuilder.okList(createResult,
                 "personIds",

@@ -3,7 +3,7 @@ package app.gateway.workshop.person;
 import app.domain.person.PersonService;
 import app.gateway.workshop.output.ApiOutputWorkshop;
 import app.gateway.workshop.output.ResponseEntityBuilderWorkshop;
-import app.gateway.workshop.person.input.BatchDeleteApiInputWorkshop;
+import app.gateway.workshop.person.input.BatchDeletePersonsApiInputWorkshop;
 import app.gateway.workshop.person.input.NewPersonApiInputWorkshop;
 import app.gateway.workshop.person.output.PersonApiOutputWorkshop;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class PersonControllerWorkshop {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<ApiOutputWorkshop> batchDelete(@RequestBody BatchDeleteApiInputWorkshop input) {
+    public ResponseEntity<ApiOutputWorkshop> batchDelete(@RequestBody BatchDeletePersonsApiInputWorkshop input) {
         var createResult = personService.deleteByIds(input.toDomain());
         return ResponseEntityBuilderWorkshop.okList(createResult,
                 "personIds",

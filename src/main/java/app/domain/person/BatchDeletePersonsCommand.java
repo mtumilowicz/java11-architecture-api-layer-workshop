@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 @Builder
 @Getter
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class BatchDeleteCommand {
+public class BatchDeletePersonsCommand {
     ImmutableList<String> ids;
 
     public Stream<String> ids() {
