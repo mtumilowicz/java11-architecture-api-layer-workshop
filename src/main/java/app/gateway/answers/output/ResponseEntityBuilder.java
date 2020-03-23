@@ -57,6 +57,6 @@ public class ResponseEntityBuilder {
 
     private ResponseEntity<ApiOutput> fromFailures(Failures failures) {
         var body = ApiOutput.fail(failures);
-        return ResponseEntity.status(400).body(body);
+        return ResponseEntity.badRequest().body(body);
     }
 }

@@ -16,16 +16,14 @@ public class ApiOutputWorkshop {
     private Map<String, Object> data;
 
     static ApiOutputWorkshop fail(Failures failures) {
-        return ApiOutputWorkshop.builder()
-                .status("fail")
-                .data(Map.of("errors", failures.asTuples()))
-                .build();
+        // status fail
+        // data: map of errors, failures asTuples
+        return null;
     }
 
     static ApiOutputWorkshop success(String name, Object data) {
-        return ApiOutputWorkshop.builder()
-                .status("success")
-                .data(Map.of(name, data))
-                .build();
+        // status success
+        // data: map of name and data
+        return null;
     }
 }
