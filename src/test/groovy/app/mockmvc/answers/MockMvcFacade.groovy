@@ -18,28 +18,12 @@ class MockMvcFacade {
         fireWithBody(MockMvcRequestBuilders.post(request.url), request)
     }
 
-    def put(Map request) {
-        fireWithBody(MockMvcRequestBuilders.put(request.url), request)
-    }
-
-    def patch(Map request) {
-        fireWithBody(MockMvcRequestBuilders.patch(request.url), request)
-    }
-
     def get(Map request) {
         fireWithoutBody(MockMvcRequestBuilders.get(request.url), request)
     }
 
-    def head(Map request) {
-        fireWithoutBody(MockMvcRequestBuilders.head(request.url), request)
-    }
-
     def delete(Map request) {
         fireWithoutBody(MockMvcRequestBuilders.delete(request.url), request)
-    }
-
-    def options(Map request) {
-        fireWithoutBody(MockMvcRequestBuilders.options(request.url), request)
     }
 
     private def fireWithoutBody(MockHttpServletRequestBuilder httpMethod, Map request) {
