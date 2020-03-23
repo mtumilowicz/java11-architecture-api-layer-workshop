@@ -16,28 +16,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NewPersonApiInputWorkshop {
 
-    String name;
-
-    String surname;
+    // name, surname
 
     public Either<Failures, NewPersonCommand> toDomain() {
-        return Validation.combine(
-                validateName(),
-                validateSurname()
-        )
-                .ap((validName, validSurname) -> NewPersonCommand.builder()
-                        .name(validName)
-                        .surname(validSurname)
-                        .build())
-                .toEither()
-                .mapLeft(Failures::merge);
+        // validate name, validate surname, hint: Validation.combine, validateName(), validateSurname()
+        // create NewPersonCommand, hint: ap
+        // to either and merge failures, hint: toEither, Failures::merge
+        return null;
     }
 
     private Validation<Failures, String> validateName() {
-        return ValidationsWorkshop.isNotNull(name, "name");
+        // validate if not null, hint: ValidationsWorkshop.isNotNull
+        return null;
     }
 
     private Validation<Failures, String> validateSurname() {
-        return ValidationsWorkshop.isNotNull(surname, "surname");
+        // validate if not null, hint: ValidationsWorkshop.isNotNull
+        return null;
     }
 }

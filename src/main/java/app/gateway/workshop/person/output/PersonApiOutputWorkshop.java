@@ -12,17 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PersonApiOutputWorkshop {
 
-    String id;
-
-    String name;
-
-    String surname;
+    // id, name, surname
 
     public static PersonApiOutputWorkshop from(Person person) {
-        return PersonApiOutputWorkshop.builder()
-                .id(person.getId())
-                .name(person.getName())
-                .surname(person.getSurname())
-                .build();
+        // map person to output, hint: PersonApiOutputWorkshop
+        return null;
     }
 }

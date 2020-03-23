@@ -14,11 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BatchDeletePersonsApiInputWorkshop {
-    List<String> ids;
+
+    // ids
 
     public BatchDeletePersonsCommand toDomain() {
-        return BatchDeletePersonsCommand.builder()
-                .ids(ImmutableList.copyOf(ids))
-                .build();
+        // ImmutableList
+        return null;
     }
 }

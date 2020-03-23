@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 public class BatchDeletePersonsApiInput {
+
     List<String> ids;
 
     public BatchDeletePersonsCommand toDomain() {
