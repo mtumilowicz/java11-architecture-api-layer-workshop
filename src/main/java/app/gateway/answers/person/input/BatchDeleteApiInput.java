@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class BatchDeleteApiInput {
     List<String> ids;
 

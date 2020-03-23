@@ -27,7 +27,7 @@ public class ResponseEntityBuilder {
                 .map(item -> {
                     var body = ApiOutput.success(name, mapper.apply(item));
                     return ResponseEntity.ok(body);
-                }).getOrElseGet(ResponseEntityBuilder::fromFailure);
+                }).getOrElseGet(ResponseEntityBuilder::fromFailures);
     }
 
     public <T> ResponseEntity<ApiOutput> created(Either<Failures, T> result,
@@ -40,7 +40,7 @@ public class ResponseEntityBuilder {
                     return ResponseEntity.created(url)
                             .body(body);
                 }
-        ).getOrElseGet(ResponseEntityBuilder::fromFailure);
+        ).getOrElseGet(ResponseEntityBuilder::fromFailures);
     }
 
     public <T> ResponseEntity<ApiOutput> okList(Either<Failures, List<T>> result,
@@ -52,11 +52,11 @@ public class ResponseEntityBuilder {
                     .collect(Collectors.toList());
             var body = ApiOutput.success(name, data);
             return ResponseEntity.ok(body);
-        }).getOrElseGet(ResponseEntityBuilder::fromFailure);
+        }).getOrElseGet(ResponseEntityBuilder::fromFailures);
     }
 
-    private ResponseEntity<ApiOutput> fromFailure(Failures failures) {
-        ApiOutput body = ApiOutput.fail(failures);
+    private ResponseEntity<ApiOutput> fromFailures(Failures failures) {
+        var body = ApiOutput.fail(failures);
         return ResponseEntity.status(400).body(body);
     }
 }
