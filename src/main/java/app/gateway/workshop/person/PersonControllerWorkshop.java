@@ -22,34 +22,40 @@ public class PersonControllerWorkshop {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiOutputWorkshop> findById(@PathVariable String id) {
-        return ResponseEntityBuilderWorkshop.okOrNotFound(personService.findById(id), "person", PersonApiOutputWorkshop::from);
+        // if found -> ok, if not -> not found, hint: ResponseEntityBuilderWorkshop.okOrNotFound
+        // hint: name: person
+        return null;
     }
 
     @GetMapping
     public ResponseEntity<ApiOutputWorkshop> findByName(@RequestParam String name) {
-        return ResponseEntityBuilderWorkshop.okList(personService.findByName(name), "persons", PersonApiOutputWorkshop::from);
+        // if success -> ok, if not -> 400, hint: ResponseEntityBuilderWorkshop.okList
+        // hint: name: persons
+        return null;
     }
 
     @PostMapping
     public ResponseEntity<ApiOutputWorkshop> create(@RequestBody NewPersonApiInputWorkshop input, UriComponentsBuilder builder) {
-        var createResult = input.toDomain().flatMap(x -> personService.create(x));
-        return ResponseEntityBuilderWorkshop.created(createResult,
-                "person",
-                PersonApiOutputWorkshop::from,
-                person -> builder.path("workshop/persons/{id}").buildAndExpand(person.getId()).toUri()
-        );
+        // if success - created, if not - 400, hint: ResponseEntityBuilderWorkshop.created
+        // transform input to domain command and invoke command, hint: toDomain(), personService.create
+        // create uri, hint: path, "workshop/persons/{id}", buildAndExpand, person.getId()
+        // transform to output, hint: PersonApiOutputWorkshop::from
+        // hint: name: person
+        return null;
     }
 
     @PostMapping("/delete")
     public ResponseEntity<ApiOutputWorkshop> batchDelete(@RequestBody BatchDeletePersonsApiInputWorkshop input) {
-        var createResult = personService.deleteByIds(input.toDomain());
-        return ResponseEntityBuilderWorkshop.okList(createResult,
-                "personIds",
-                Function.identity());
+        // if success - ok, if not - 400, hint: ResponseEntityBuilderWorkshop.okList
+        // transform input to domain command and invoke command, hint: toDomain(), personService.deleteByIds
+        // hint: name: personIds
+        return null;
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiOutputWorkshop> delete(@PathVariable String id) {
-        return ResponseEntityBuilderWorkshop.ok(personService.deleteById(id), "personId", Function.identity());
+        // if success - ok, if not - 400, hint: ResponseEntityBuilderWorkshop.ok
+        // hint: name: personId
+        return null;
     }
 }
