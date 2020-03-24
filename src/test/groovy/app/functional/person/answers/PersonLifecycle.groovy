@@ -36,10 +36,10 @@ class PersonLifecycle {
     }
 
     def deleteById(id) {
-        def responseOfGet = facade.delete([url: "$root/$id"])
+        def responseOfDelete = facade.delete([url: "$root/$id"])
                 .andExpect(status().isOk())
                 .andReturn()
-        ResponseMapper.parseResponse(responseOfGet).data.personId
+        ResponseMapper.parseResponse(responseOfDelete).data.personId
     }
 
     def deleteByIds(ids) {

@@ -17,36 +17,32 @@ class PersonLifecycleWorkshop {
     def root = '/workshop/persons'
 
     def create(person) {
-        def responseOfCreate = facade.post([url: root, body: person])
-                .andExpect(status().isCreated())
-                .andReturn()
-        ResponseMapper.parseResponse(responseOfCreate).data.person
+        // facade post, [url:..., body:...]
+        // verify that created, hint: andExpect, status(), isCreated()
+        // parse response and get person, hint: ResponseMapper.parseResponse, data.person
     }
 
     def get(id) {
-        def responseOfGet = facade.get([url: "$root/$id"])
-                .andExpect(status().isOk())
-                .andReturn()
-        ResponseMapper.parseResponse(responseOfGet).data.person
+        // facade get, url
+        // verify that status is 200, hint: andExpect, status(), isCreated()
+        // parse response and get person, hint: ResponseMapper.parseResponse, data.person
     }
 
     def notExists(id) {
-        facade.get([url: "$root/$id"])
-                .andExpect(status().isNotFound())
+        // facade get, url
+        // verify that status is not found, hint: andExpect, status(), isNotFound()
     }
 
     def deleteById(id) {
-        def responseOfGet = facade.delete([url: "$root/$id"])
-                .andExpect(status().isOk())
-                .andReturn()
-        ResponseMapper.parseResponse(responseOfGet).data.personId
+        // facade delete, url
+        // verify that status is 200, hint: andExpect, status(), isCreated()
+        // parse response and get personId, hint: ResponseMapper.parseResponse, data.personId
     }
 
     def deleteByIds(ids) {
-        def responseOfDelete = facade.post([url: "$root/delete", body: [ids: ids]])
-                .andExpect(status().isOk())
-                .andReturn()
-        ResponseMapper.parseResponse(responseOfDelete).data.personIds
+        // facade post, url, ids
+        // verify that status is 200, hint: andExpect, status(), isCreated()
+        // parse response and get personIds, hint: ResponseMapper.parseResponse, data.personIds
     }
 
 }
