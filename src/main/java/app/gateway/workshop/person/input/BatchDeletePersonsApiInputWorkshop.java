@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 public class BatchDeletePersonsApiInputWorkshop {
 
     // ids

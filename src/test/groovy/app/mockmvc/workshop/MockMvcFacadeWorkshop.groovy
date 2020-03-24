@@ -28,22 +28,20 @@ class MockMvcFacadeWorkshop {
     }
 
     private def fireWithoutBody(MockHttpServletRequestBuilder httpMethod, Map request) {
-        mockMvc.perform(httpMethod.headers(prepareHeaders(request.headers)))
+        // perform httpMethod, hint: mockMvc.perform
+        // don't forget about headers (could be in request.headers), hint: httpMethod.headers, prepareHeaders
     }
 
     private def fireWithBody(MockHttpServletRequestBuilder httpMethod, Map request) {
-        mockMvc.perform(
-                httpMethod
-                        .headers(prepareHeaders(request.headers))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(RequestMapperWorkshop.asJsonString(request.body)
-                        )
-        )
+        // perform httpMethod, hint: mockMvc.perform
+        // don't forget about headers (could be in request.headers), hint: httpMethod.headers, prepareHeaders
+        // content type: MediaType.APPLICATION_JSON, hint: contentType
+        // content in request.body, hint: content, RequestMapperWorkshop.asJsonString
     }
 
     private def prepareHeaders(inputHeaders) {
-        HttpHeaders headers = new HttpHeaders()
-        !inputHeaders.each { headers.add(it.headerName, it.headerValue) }
-        headers
+        // hint: HttpHeaders
+        // if inputHeaders not null - add each to HttpHeaders, hint: !inputHeaders, each, headerName, headerValue
+        // return headers
     }
 }
