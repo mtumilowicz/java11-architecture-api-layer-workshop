@@ -7,12 +7,8 @@ class ResponseMapperWorkshop {
 
     static ObjectMapper MAPPER = new ObjectMapper()
 
-    static <T> T parseResponse(MvcResult result) {
-        try {
-            String contentAsString = result.getResponse().getContentAsString()
-            return MAPPER.readValue(contentAsString, Object.class)
-        } catch (IOException e) {
-            throw new RuntimeException(e)
-        }
+    static def parseResponse(MvcResult result) {
+        // get content as string, hint: result.getResponse().getContentAsString()
+        // map to object, MAPPER.readValue, Object.class
     }
 }
