@@ -9,6 +9,6 @@ class ResponseMapperWorkshop {
 
     static def parseResponse(MvcResult result) {
         // get content as string, hint: result.getResponse().getContentAsString()
-        // map to object, MAPPER.readValue, Object.class
+        // map to ApiOutput, MAPPER.readValue, ApiOutput.class
     }
 }

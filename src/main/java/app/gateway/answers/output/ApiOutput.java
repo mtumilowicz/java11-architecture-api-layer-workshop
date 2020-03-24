@@ -1,14 +1,14 @@
 package app.gateway.answers.output;
 
 import app.domain.results.Failures;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.Map;
 
 @Builder(access = AccessLevel.PACKAGE)
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApiOutput {
 
     private String status;
