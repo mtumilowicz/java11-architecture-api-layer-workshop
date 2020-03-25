@@ -6,6 +6,7 @@
     * https://blog.restcase.com/restful-api-basic-guidelines/
     * https://dev.to/flippedcoding/what-is-the-difference-between-a-uri-and-a-url-4455
     * https://restful-api-design.readthedocs.io/en/latest/resources.html
+    * https://en.wikipedia.org/wiki/HATEOAS
     
 ## preface
 * goals of this workshop:
@@ -95,8 +96,42 @@ because, at the end of the day, the way that they will communicate is firmly bas
         * representation is what will be returned for clients
         * client can request what kind it desires for the representation such as JSON, XML, or plain text
     * Self-descriptive messages
+        * Each message includes a precise information that describes how to process it
+        * information provided by the RESTful service contains all the information about the resource that the client should be aware of
     * Hypermedia as the Engine of Application State (HATEOAS)
+        * request
+            ```
+            GET /accounts/12345 HTTP/1.1
+            Host: bank.example.com
+            Accept: application/vnd.acme.account+json
+            ...
+            ```
+        * response
+            ```
+            HTTP/1.1 200 OK
+            Content-Type: application/vnd.acme.account+json
+            Content-Length: ...
+            
+            {
+                "account": {
+                    "account_number": 12345,
+                    "balance": {
+                        "currency": "usd",
+                        "value": 100.00
+                    },
+                    "links": {
+                        "deposit": "/accounts/12345/deposit",
+                        "withdraw": "/accounts/12345/withdraw",
+                        "transfer": "/accounts/12345/transfer",
+                        "close": "/accounts/12345/close"
+                    }
+                }
+            }
+            ```
 ### Stateless
+* necessary state to operate the request is contained within it as a part of the URI, query-string parameters, body, or headers
+* Stateless allows high scalability since the server will not maintain sessions
+* Another interesting point to note is that the load balancer does not care about sessions at all in stateless systems
 ### Cacheable
 ### Client-server architecture
 ### A layered system
