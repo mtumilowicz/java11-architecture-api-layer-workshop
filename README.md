@@ -133,6 +133,19 @@ because, at the end of the day, the way that they will communicate is firmly bas
 * Stateless allows high scalability since the server will not maintain sessions
 * Another interesting point to note is that the load balancer does not care about sessions at all in stateless systems
 ### Cacheable
+* the request flows through a cache or a series of caches, such as local caching, proxy caching, or reverse proxy 
+caching, in front of the service hosting the resource. 
+* If any of them match with any criteria during the request (for example, the timestamp or client ID), the data 
+is returned based on the cache layer, and if the caches cannot satisfy the request, the request goes to the server
 ### Client-server architecture
+* uniform interface separates clients from servers
+* clients are not concerned with data storage, which remains internal to each server, so that the portability of 
+client code is improved
+* Servers are not engaged with the user interface or user state so they can be simpler and more scalable
+* Servers and clients may also be replaced and developed independently, as long as the interface is not modified
 ### A layered system
+* client cannot ordinarily tell whether it is connected directly to the end server, or to an intermediary along the way
+* Mediate servers or API Gateways may improve system scalability by enabling load-balancing and by providing shared caches. 
+* Layers also enforce security policies.
 ### Code on demand (optional)
+* Servers are able to temporarily extend or customize the functionality of a client by transferring logic to it that it can execute
