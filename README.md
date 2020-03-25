@@ -34,41 +34,25 @@
     * public API: provided as a service - you only use them
     * private API: is one you build for yourself (you are your own API provider and API consumer)
     * the public/private question is not a matter of how an API is exposed, but to whom
-* questions
-    * Who are the users?
-    * What can users do?
-    * How do they do it?
-    * Who can use the API
-    * What they can do
-    * How they do it
-    * What they need to do it
-    * What they get in return  
-    * to identify missing goals: Where do the inputs come from?
-    * to identify missing goals: How are the outputs used?
-    * to identify inputs: What do they need to do it?
-    * to identify outputs: What do they get in return?
-    * is all this really the consumer’s business?
+* questions that should be asked during designing an API
+    * who are the users
+    * what can users do
+    * how do they do it
+    * to identify inputs: what they need to do it
+    * to identify outputs: what they get in return
 
 ## REST
-* REST is agnostic of protocols, components, and languages
+* is a software architectural style that defines a set of constraints 
+to be used for creating Web services
 * REST API represents its goals using the HTTP protocol
-* Goals are transposed into resource and action pairs. 
-    * Resources are identified by paths, 
-    * and actions are represented by HTTP methods
-* First, we have to identify resources (functional concepts) and their relationships (how
-  they are organized)
-* Then we have to identify for each resource the available actions
-  and their parameters and returns
-* Once this is done, we can proceed to the actual
-  HTTP programming interface design by creating resources paths and choosing HTTP
-  methods to represent actions
-* Do not forget that these actions are made from the consumer’s perspective; 
-        * for example, if you DELETE /orders/O123 , it does not mean that the order O123 will actually 
-        be deleted from the database containing the orders. 
-        * Such actions might simply update this order status to CANCELED
-    * If you really cannot fnd a resource and HTTP method pair to represent your action,
-      you can use the default POST HTTP method as a last resort
-* Representational state transfer (REST) is a software architectural style that defines a set of constraints to be used for creating Web services
+* steps to design REST api
+    1. identify resources and their relationships
+    1. identify available actions, their parameters and returns (for each resource)
+    1. HTTP programming: creating resources paths and choosing HTTP methods to represent actions
+* actions are made from the consumer’s perspective;
+    * for example, DELETE does not mean that the resource will actually  be deleted from the database, it might 
+    simply update resource status to DEACTIVATED
+    * if you really cannot find a HTTP method to represent your action, POST could be used as a last resort
 * The REST architectural style describes six constraints
     * Uniform interface
     * Stateless
