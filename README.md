@@ -15,6 +15,7 @@
     * introduction to API
     * general overview of REST
     * investigate how the gateway layer in web application should look like
+    * short introduction to MockMvc
     * prepare classes that facilitate writing and increase readability of functional tests
 * workshops are in
     * `app.gateway.workshop`
@@ -149,3 +150,54 @@ providing shared caches
 ### Code on demand (optional)
 * servers are able to temporarily extend or customize the functionality of a client by transferring logic to 
 it that it can execute
+
+## gateway layer
+* in general api output has a very simple structure
+    ```
+    {
+        status: ..., // could be "fail" or "success"
+        data: {
+            key1: value1, // values actually are also objects 
+            key1: value1,
+            key1: value1
+        }
+    }
+    ```
+    * fail
+        ```
+        {
+            status: "fail"
+            data: {
+                errors: {
+                    person.name: 'cannot contain numbers',
+                    person.address: 'address have to be present'
+                }
+            }
+        }
+        ```
+    * success
+        ```
+        {
+            status: "success"
+            data: {
+                person: {
+                    name: Michal
+                    surname: Tumilowicz
+                    ...
+                }
+            }
+        }
+        ```
+* we have `ResponseEntityBuilder` to facilitates creating responses `ResponseEntity<ApiOutput>`, for example
+    ```
+    public <T> ResponseEntity<ApiOutput> okOrNotFound(Option<T> domainObject, String name, Function<T, ?> mapper) {
+        return domainObject
+                .map(item -> {
+                    var body = ApiOutput.success(name, mapper.apply(item));
+                    return ResponseEntity.ok(body);
+                }).getOrElse(ResponseEntity.notFound().build());
+    }
+    ```
+* in `gateway` package we create package for every business/context, for example `person` that will contain all stuff
+connected with api layer in context of a person: controller with methods, api inputs, api outputs
+    * api inputs and api output have functions that will transform them to domain inputs
