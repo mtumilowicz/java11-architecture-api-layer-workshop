@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.com/mtumilowicz/java11-architecture-api-layer-workshop.svg?branch=master)](https://travis-ci.com/mtumilowicz/java11-architecture-api-layer-workshop)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 # java11-architecture-api-layer-workshop
 * references
     * https://github.com/omniti-labs/jsend
