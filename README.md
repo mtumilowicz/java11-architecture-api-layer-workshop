@@ -7,6 +7,8 @@
     * https://dev.to/flippedcoding/what-is-the-difference-between-a-uri-and-a-url-4455
     * https://restful-api-design.readthedocs.io/en/latest/resources.html
     * https://en.wikipedia.org/wiki/HATEOAS
+    * https://www.tutorialspoint.com/restful/restful_statelessness.htm
+    * https://stackoverflow.com/questions/33786421/rest-shopping-cart
     
 ## preface
 * goals of this workshop:
@@ -63,26 +65,29 @@ to be used for creating Web services
 ### Uniform interface
 ![alt text](img/uniform-interface.png)
 * describes a contract between clients and servers
-* once there is a contract aligned with the client and server parts, they can start their works independently 
-because, at the end of the day, the way that they will communicate is firmly based on the interface
-* is divided into four main groups, called principles:
-    * Resource-based
+    * therefore client and server can start their works independently (the way that they will communicate is 
+    based on the interface)
+* is divided into four principles:
+    * **Resource-based**
+        * resource is an object with a type, associated data, relationships to other resources, and a set of 
+        methods that operate on it
+        * resources are identified by URI
+        * Resources can be grouped into collections: `customers/123`
+        * URI stands for uniform resource **identifier** and URL stands for uniform resource **locator**
         * URI vs URL
-            * URI stands for uniform resource **identifier** and URL stands for uniform resource **locator**
-            * That means all URLs are URIs
-            * Not all URIs are URLs because a URI could be a name instead of a locator
-            * Your name could be a URI because it identifies you, but it couldn't be a URL because it doesn't help anyone find your location
-            * On the other hand, your address is both a URI and a URL because it both identifies you and it provides a location for you
-        * A resource is an object with a type, associated data, relationships to other resources, and a set of methods that operate on it
-        * Resources can be grouped into collections
-        * resources is identified by URI
-    * The manipulation of resources using representations
+            * all URLs are URIs
+            * not all URIs are URLs; URI could be a name instead of a locator
+            * example
+                * URI: your name could be a URI because it identifies you, but it couldn't be a URL because it 
+                doesn't help anyone find your location
+                * URL: your address is both URI and URL because it identifies you and it provides a location of you
+    * **The manipulation of resources using representations**
         * representation is what will be returned for clients
-        * client can request what kind it desires for the representation such as JSON, XML, or plain text
-    * Self-descriptive messages
-        * Each message includes a precise information that describes how to process it
-        * information provided by the RESTful service contains all the information about the resource that the client should be aware of
-    * Hypermedia as the Engine of Application State (HATEOAS)
+        * client can request what kind of representation he desires: JSON, XML, plain text, etc
+    * **Self-descriptive messages**
+        * information provided by the RESTful service contains all the information about the resource that 
+        the client should be aware of
+    * **Hypermedia as the Engine of Application State (HATEOAS)**
         * request
             ```
             GET /accounts/12345 HTTP/1.1
@@ -113,23 +118,34 @@ because, at the end of the day, the way that they will communicate is firmly bas
             }
             ```
 ### Stateless
-* necessary state to operate the request is contained within it as a part of the URI, query-string parameters, body, or headers
-* Stateless allows high scalability since the server will not maintain sessions
-* Another interesting point to note is that the load balancer does not care about sessions at all in stateless systems
+* necessary state to operate the request is contained within it as a part of the URI, query-string parameters, 
+body, or headers
+* means that every HTTP request happens in complete isolation
+* allows high scalability since the server will not maintain sessions
+    * the load balancer does not care about sessions at all in stateless systems
+* example: in order to be stateless, your shopping-cart URI should be able to 
+identify a unique cart without needing to rely on any session information (`/user/1234/shopping-cart`)
+
 ### Cacheable
 * the request flows through a cache or a series of caches, such as local caching, proxy caching, or reverse proxy 
-caching, in front of the service hosting the resource. 
-* If any of them match with any criteria during the request (for example, the timestamp or client ID), the data 
+caching, in front of the service hosting the resource
+* if any of them match with any criteria during the request (for example, the timestamp or client ID), the data 
 is returned based on the cache layer, and if the caches cannot satisfy the request, the request goes to the server
+
 ### Client-server architecture
 * uniform interface separates clients from servers
-* clients are not concerned with data storage, which remains internal to each server, so that the portability of 
-client code is improved
-* Servers are not engaged with the user interface or user state so they can be simpler and more scalable
-* Servers and clients may also be replaced and developed independently, as long as the interface is not modified
+* clients are not concerned with data storage, which remains internal to each server
+    * portability of client code is improved
+* servers are not engaged with the user interface or user state so they can be simpler and more scalable
+* servers and clients may also be replaced and developed independently, as long as the interface is not modified
+
 ### A layered system
-* client cannot ordinarily tell whether it is connected directly to the end server, or to an intermediary along the way
-* Mediate servers or API Gateways may improve system scalability by enabling load-balancing and by providing shared caches. 
-* Layers also enforce security policies.
+* client cannot ordinarily tell whether it is connected directly to the end server, or to an intermediary 
+along the way
+* mediate servers or API Gateways may improve system scalability by enabling load-balancing and by 
+providing shared caches
+* layers also enforce security policies
+
 ### Code on demand (optional)
-* Servers are able to temporarily extend or customize the functionality of a client by transferring logic to it that it can execute
+* servers are able to temporarily extend or customize the functionality of a client by transferring logic to 
+it that it can execute
